@@ -6,11 +6,14 @@ Navier Stokes equation is numerically solved using a simple 2nd order finite dif
 
 ## Part 1
 
+Click [here](./docs/vanilaCavityFlow_EN.md) for detailed documentation
+
 In order to focus on understanding basic idea of the numerical schemes, the method is kept premitive; explicit treatment of viscous term (the solution will diverge at low Reynolds number) and
 the time integration is Euler.
 
-For English, click [here](./doc/vanilaCavityFlow_EN.md) for detailed documentation
-日本語は[こちら](./doc/vanilaCavityFlow_JP.md) から
+まずは単純な手法でキャビティ流れのシミュレーションを実施します。日本語のドキュメントは[こちら](./docs/vanilaCavityFlow_JP.md) から
+
+
 
 ## Next to come
 
