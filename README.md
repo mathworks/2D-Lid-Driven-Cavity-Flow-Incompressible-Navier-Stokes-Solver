@@ -3,17 +3,29 @@
 This repo provides a MATLAB example code for the lid-driven cavity flow where incompressible 
 Navier Stokes equation is numerically solved using a simple 2nd order finite difference scheme on a staggered grid system.
 
-The current example is very premitive; explicit treatment of viscous term (the solution will diverge at low Reynolds number) and
+
+## Part 1
+
+In order to focus on understanding basic idea of the numerical schemes, the method is kept premitive; explicit treatment of viscous term (the solution will diverge at low Reynolds number) and
 the time integration is Euler.
+
+For English, click [here](./doc/vanilaCavityFlow_EN.md) for detailed documentation
+日本語は[こちら](./doc/vanilaCavityFlow_JP.md) から
+
+## Next to come
+
+Plan is to implement the implicit treatment for viscous terms to obtain better stability.
+
 
 ![sample](./gif/animation_sample.gif)
 
-## Environment
+
+# Environment
 
 - MATLAB R2019b
 - Signal Processing Toolbox if you use dct in solving Poisson eqn.
 
-## ToDo
+# ToDo
 
 1. Implement implicit treatment of viscous terms
 2. Imlement crank-Nicolson for the non-linear terms
