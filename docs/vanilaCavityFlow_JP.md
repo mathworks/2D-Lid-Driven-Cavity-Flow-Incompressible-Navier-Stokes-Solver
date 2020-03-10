@@ -10,29 +10,6 @@ Copyright (c) 2020, The MathWorks, Inc.
 Navier-Stokes •û’öŽ®‚ð”’l“I‚É‰ð‚«‚Ü‚·BˆÓŠO‚ÆŠÈ’P‚É—¬‘ÌƒVƒ~ƒ…ƒŒ[ƒVƒ‡ƒ“‚Å‚«‚é‚ñ‚¾‚ÈAA‚ÆŽv‚Á‚Ä‚à‚ç‚¦‚é‚ÆŠð‚µ‚¢‚Å‚·B
 
 
-
-
-“r’†‚ÅS•Ï‚í‚è‚·‚é‚ÆŽv‚¢‚Ü‚·‚ª‚Ð‚Æ‚Ü‚¸ˆÈ‰º‚Ì‚æ‚¤‚È“WŠJ‚ð—\’è‚µ‚Ä‚¢‚Ü‚·B
-
-
-
-   -  **”ñˆ³k« Navier-Stokes •û’öŽ®‚Ì”’l‰ð–@‚PF“±“ü•Òi‚±‚Ì‹LŽ–j** 
-   -  ”ñˆ³k« Navier-Stokes •û’öŽ®‚Ì”’l‰ð–@‚QFŠgŽU€‚Ì‰A‰ð–@{ŽžŠÔÏ•ª‚Ì‚ŽŸ‰» 
-   -  ”ñˆ³k« Navier-Stokes •û’öŽ®‚Ì”’l‰ð–@‚RF‹«ŠEðŒ‚Å—V‚Ôi—¬“üoðŒj 
-   -  ”ñˆ³k« Navier-Stokes •û’öŽ®‚Ì”’l‰ð–@‚SF‰ÂŽ‹‰»‚Ì‚¢‚ë‚¢‚ë 
-   -  ”ñˆ³k« Navier-Stokes •û’öŽ®‚Ì”’l‰ð–@‚TF‚RŽŸŒ³‚Ö‚ÌŠg’£ 
-   -  ”ñˆ³k« Navier-Stokes •û’öŽ®‚Ì”’l‰ð–@‚UFCƒR[ƒh¶¬‚Å‚‘¬‰» 
-
-
-
-ˆÈ‘O‚Ì“Šeu[—£ŽUƒRƒTƒCƒ“•ÏŠ·‚Åƒ|ƒAƒ\ƒ“•û’öŽ®‚ð‚‘¬‚É‰ð‚­](https://qiita.com/eigs/items/cb607d647bc20c7db809)v‚ÅÐ‰î‚µ‚½‰ð–@‚à‚±‚¿‚ç‚ÅŠˆ—p‚µ‚Ü‚·B
-
-
-
-
-CFD ‚ÉŠÖ‚í‚é•û‚É‚Æ‚Á‚Ä‚ÍŠî–{“I‚È‚±‚Æ‚©‚ÆŽv‚¢‚Ü‚·‚ªAŽ©•ª‚ÌŒoŒ±‚Í 2014”N‚ ‚½‚è‚ÅŽ~‚Ü‚Á‚Ä‚¢‚é‚Ì‚Å“–Žž‚ðŽv‚¢o‚µ‚È‚ª‚ç‘‚¢‚Ä‚¢‚Ü‚·B‚²ˆÓŒ©’¸‚¯‚é‚ÆŠð‚µ‚¢‚Å‚·B
-
-
   
 # ‚±‚Ì‹LŽ–‚ÌƒS[ƒ‹
 
@@ -54,23 +31,15 @@ CFD ‚ÉŠÖ‚í‚é•û‚É‚Æ‚Á‚Ä‚ÍŠî–{“I‚È‚±‚Æ‚©‚ÆŽv‚¢‚Ü‚·‚ªAŽ©•ª‚ÌŒoŒ±‚Í 2014”N‚ ‚½‚è‚ÅŽ
 —£ŽU‰»‚ÉÛ‚µ‚Ä Perot (1993) ‚Ì‹«ŠEðŒ‚Ì‹c˜_‚Í‚ ‚Ü‚è“ú–{Œê‚ÅŒ©‚©‚¯‚È‚¢‚Ì‚ÅAV‚µ‚¢î•ñ‚É‚È‚ê‚Î‚ÆŽv‚¢‚Ü‚·B
 
 
-  
+
+
+CFD ‚ÉŠÖ‚í‚é•û‚É‚Æ‚Á‚Ä‚ÍŠî–{“I‚È‚±‚Æ‚©‚ÆŽv‚¢‚Ü‚·‚ªAŽ©•ª‚ÌŒoŒ±‚Í 2014”N‚ ‚½‚è‚ÅŽ~‚Ü‚Á‚Ä‚¢‚é‚Ì‚Å“–Žž‚ðŽv‚¢o‚µ‚È‚ª‚ç‘‚¢‚Ä‚¢‚Ü‚·B‚²ˆÓŒ©’¸‚¯‚é‚ÆŠð‚µ‚¢‚Å‚·B
+
+
 ## ’ˆÓ“_
 
 
 ‚±‚±‚ÅÐ‰î‚µ‚Ä‚¢‚éƒR[ƒh‚ÍAŽžŠÔÏ•ª‚ÍˆêŽŸ¸“x‚ÌƒIƒCƒ‰[—z‰ð–@AŠgŽU€‚à—z‰ð–@‚È‚Ì‚ÅðŒiReynolds ”AƒOƒŠƒbƒh”j‚ð•Ï‚¦‚é‚Æ”­ŽU‚µ‚Ü‚·B‚»‚ê‚¼‚ê‚Ö‚Ì‘Îô‚É‚Â‚¢‚Ä‚Í‚Ü‚½ŽŸ‰ñI
-
-
-  
-# ‚È‚º MATLAB ‚Å CFDH
-
-
-”’lŒvŽZ‚Á‚ÄŒ‹‹Çs—ñŒvŽZ‚È‚Ì‚Å MATLAB ‚ª“¾ˆÓ‚È—Ìˆæ‚Í‚¸B‰ÂŽ‹‰»‚àŠÈ’PB
-
-
-
-
-‚Å‚àŒvŽZ‘¬“x‚ªEE‚Æ‚¢‚¤Œœ”O‚à‚ ‚è‚Ü‚·‚ª R2015b ˆÈ~AŒvŽZƒGƒ“ƒWƒ“‚ªüV‚³‚ê‘¬‚­‚È‚Á‚Ä‚¢‚é‚Æ•·‚­‚µAMATLAB Coder ‚â Parallel Computing Toolbox ‚à‚¤‚Ü‚­Žg‚¦‚Î‚»‚Ì‚Ü‚Ü‘å‹K–Í‚ÈŒvŽZ‚à‚Å‚«‚é‚æ‚¤‚ÈƒR[ƒh‚àŽ©“®¶¬‚Å‚«‚é‚Ì‚Å‚ÍEEH‚Æ‚¢‚¤’W‚¢Šú‘Ò‚à‚ ‚è‚Ü‚·B
 
 
 ## ŽÀsŠÂ‹«
@@ -83,7 +52,17 @@ CFD ‚ÉŠÖ‚í‚é•û‚É‚Æ‚Á‚Ä‚ÍŠî–{“I‚È‚±‚Æ‚©‚ÆŽv‚¢‚Ü‚·‚ªAŽ©•ª‚ÌŒoŒ±‚Í 2014”N‚ ‚½‚è‚ÅŽ
 *) ƒ|ƒƒ\ƒ“•û’öŽ®‚ð‰ð‚­•”•ª‚É Signal Processing Toolbox ‚ðŽg‚Á‚Ä‚¢‚Ü‚·‚ªA’¼Ú–@‚â”½•œ–@‚É‚·‚ê‚Î MATLAB –{‘Ì‚¾‚¯‚ÅOK‚Å‚·B
 
 
-  
+# ‚È‚º MATLAB ‚Å CFDH
+
+
+”’lŒvŽZ‚Á‚ÄŒ‹‹Çs—ñŒvŽZ‚È‚Ì‚Å MATLAB ‚ª“¾ˆÓ‚È—Ìˆæ‚Í‚¸B‰ÂŽ‹‰»‚àŠÈ’P‚È‚Ì‚Å”’l—¬‘Ì‚Ì“±“ü‚Æ‚µ‚Ä‚Í‚¢‚¢ƒc[ƒ‹‚¾‚ÆŽv‚¢‚Ü‚·B
+
+
+
+
+‚Å‚àŒvŽZ‘¬“x‚ªEE‚Æ‚¢‚¤Œœ”O‚à‚ ‚è‚Ü‚·‚ª R2015b ˆÈ~AŒvŽZƒGƒ“ƒWƒ“‚ªüV‚³‚ê‘¬‚­‚È‚Á‚Ä‚¢‚é‚Æ•·‚­‚µAMATLAB Coder ‚â Parallel Computing Toolbox ‚à‚¤‚Ü‚­Žg‚¦‚Î‚»‚Ì‚Ü‚Ü‘å‹K–Í‚ÈŒvŽZ‚à‚Å‚«‚é‚æ‚¤‚ÈƒR[ƒh‚àŽ©“®¶¬‚Å‚«‚é‚Ì‚Å‚ÍEEH‚Æ‚¢‚¤’W‚¢Šú‘Ò‚à‚ ‚è‚Ü‚·B
+
+
 # ƒVƒ~ƒ…ƒŒ[ƒVƒ‡ƒ“‘ÎÛ
 
 
