@@ -6,6 +6,7 @@ Navier Stokes equation is numerically solved using a simple 2nd order finite dif
 
 
 ![sample](./gif/animation_sample.gif)
+The top lid changes its direction. The arrow denotes the velocity field and the contour denotes its magnitude.
 
 ## Part 1
 
@@ -15,8 +16,6 @@ In order to focus on understanding basic idea of the numerical schemes, the meth
 the time integration is Euler.
 
 まずは単純な手法でキャビティ流れのシミュレーションを実施します。日本語のドキュメントは[こちら](./docs/vanilaCavityFlow_JP.md) から
-
-
 
 ## Next to come
 
