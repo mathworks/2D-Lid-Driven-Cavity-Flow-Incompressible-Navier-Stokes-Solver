@@ -5,6 +5,8 @@ This repo provides a MATLAB example code for the lid-driven cavity flow where in
 Navier Stokes equation is numerically solved using a simple 2nd order finite difference scheme on a staggered grid system.
 
 
+![sample](./gif/animation_sample.gif)
+
 ## Part 1
 
 Click [here](./docs/vanilaCavityFlow_EN.md) for detailed documentation
@@ -21,7 +23,6 @@ the time integration is Euler.
 Plan is to implement the implicit treatment for viscous terms to obtain better stability.
 
 
-![sample](./gif/animation_sample.gif)
 
 
 # Environment
