@@ -1,4 +1,4 @@
-function [u,v] = updateVelocityField(u,v,nx,ny,dx,dy,Re,dt,bctop,method)
+function [u,v] = updateVelocityField_Euler(u,v,nx,ny,dx,dy,Re,dt,bctop,method)
 % Copyright (c) 2020, The MathWorks, Inc.
 
 % Apply boundary conditions:
@@ -59,7 +59,7 @@ switch method
         % by using the discrete cosine transform（コサイン変換使用）
         % Note: Signal Processing Toolbox required
         dp = solvePoissonEquation_2dDCT(b,nx,ny,dx,dy);
-    case 'minres'
+    case 'iterative'
         [dp,~] = minres(@(x) operatorDG(x,nx,ny,dx,dy),b(:),1e-4,300);
         dp = reshape(dp,nx,ny);
         

@@ -19,7 +19,7 @@ phat = fhat./(MWX+MWY);
 phat(1,1) = 0;
 
 % Inverse 2D DCT
-p = idct2(phat); % Needs Image Processing Toolbox
-% u = idct(idct(uhat)')'; % Same as above (Needs Signal Processing Toolbox instead)
+% p = idct2(phat); % Needs Image Processing Toolbox
+p = idct(idct(phat)')'; % Same as above (Needs Signal Processing Toolbox instead)
 
 end

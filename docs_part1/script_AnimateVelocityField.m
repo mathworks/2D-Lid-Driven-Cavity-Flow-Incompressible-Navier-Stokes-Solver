@@ -8,7 +8,7 @@
 %
 
 %% Setting up
-
+clear, close all
 Re = 500; % Reynolds number
 nt = 2000; % max time steps
 Lx = 1; Ly = 1; % domain size
@@ -36,7 +36,7 @@ vce = (v(2:end-1,1:end-1)+v(2:end-1,2:end))/2; % v at cell center
 % |recordRate| time steps.
 
 visRate = 4; % downsample rate of the data for quiver
-recordGIF = true; % set to true if you wanna make GIF
+recordGIF = false; % set to true if you wanna make GIF
 recordRate = 20;
 filename = 'animation_sample.gif'; % Specify the output file name
 %% 
@@ -85,7 +85,7 @@ for ii = 1:2000
     end
     
     % Update the velocity field (uses dct)
-    [u,v] = updateVelocityField(u,v,Nx,Ny,dx,dy,Re,dt,bctop,'dct');
+    [u,v] = updateVelocityField_Euler(u,v,Nx,Ny,dx,dy,Re,dt,bctop,'dct');
     
     % Update the plot at every recordRate steps
     if mod(ii,recordRate) == 0

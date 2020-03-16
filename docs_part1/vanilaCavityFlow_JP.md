@@ -419,7 +419,9 @@ p(1:end, 1:end)
 
 
 ```matlab
-clear, close all
+clear
+close all
+addpath('../functions/');
 ```
 ## 解析領域の設定
 
@@ -638,7 +640,7 @@ b = ((u(2:end,2:end-1)-u(1:end-1,2:end-1))/dx ...
 disp(norm(b))
 ```
 ```
-   4.7044e-14
+   5.8843e-14
 ```
 
 
@@ -648,7 +650,7 @@ disp(norm(b))
 # 流れ場のアニメーション表示
 
 
-CFD は Colorful Fluid Dynamics の略とも言われるだけあって、可視化が数値流体の醍醐味ですよね。等高線図だけじゃなくて速度を矢印で表示させて GIF 出力します。上の計算処理は `updateVelocityField.m` として関数化しておきます。
+CFD は Colorful Fluid Dynamics の略とも言われるだけあって、可視化が数値流体の醍醐味ですよね。等高線図だけじゃなくて速度を矢印で表示させて GIF 出力します。上の計算処理は `updateVelocityField_Euler.m` として関数化しておきます。
 
 
 
@@ -712,7 +714,7 @@ figure
 [~,h_abs] = contourf(Xce',Yce',sqrt(uce.^2+vce.^2)); % 等高線図
 ```
 ```
-Warning: Contour not rendered for constant ZData
+警告: 等高線図は ZData が定数の場合はレンダリングされません
 ```
 ```matlab
 hold on
@@ -771,7 +773,7 @@ for ii = 1:2000
     end
     
     % 速度場更新（コサイン変換使用）
-    [u,v] = updateVelocityField(u,v,Nx,Ny,dx,dy,Re,dt,bctop,'dct');
+    [u,v] = updateVelocityField_Euler(u,v,Nx,Ny,dx,dy,Re,dt,bctop,'dct');
     
     % 描画は recordRate 毎に実施
     if mod(ii,recordRate) == 0

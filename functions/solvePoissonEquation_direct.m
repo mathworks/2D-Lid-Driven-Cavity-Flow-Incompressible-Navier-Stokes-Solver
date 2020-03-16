@@ -1,8 +1,10 @@
 function dp = solvePoissonEquation_direct(b,nx,ny,dx,dy)
+% Copyright 2020 The MathWorks, Inc.
 
-persistent Abig
+persistent Abig sizeAbig
 
-if isempty(Abig) || any(size(Abig) ~= [nx*ny,nx*ny])
+% So that you do not have to calculate Abig everytime
+if isempty(Abig) || any(sizeAbig ~= [nx*ny,nx*ny])
     
     % 行列 A の構築（メモリ節約のためスパース行列で定義）
     % まず x 方向の微分に関する部分（三重対角行列）から定義します。
@@ -32,6 +34,9 @@ if isempty(Abig) || any(size(Abig) ~= [nx*ny,nx*ny])
     Abig(1,:) = 0;
     Abig(1,1) = 1;
     
+    sizeAbig = size(Abig);
+    % Pre-decompose the matrix for fater inversion
+    Abig = decomposition(Abig);
 end
 
 % 右辺

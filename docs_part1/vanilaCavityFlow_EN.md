@@ -338,7 +338,9 @@ Enough equations already. Let's put everything in MATLAB.
 
 
 ```matlab
-clear, close all
+clear
+close all
+addpath('../functions/');
 ```
 ## Setting up Computational Domain
 
@@ -554,7 +556,7 @@ Good.
 # Animation of the Velocity Field
 
 
-Making animation of the flow field is the fun part of CFD (Colorful Fluid Dynamics). In addition to the contour plot, let's create an arrow plot that represents the velocity using `quiver` function. The code below generates GIF. The numerical integration process discussed above is now in the function `updateVelocityField.m.`
+Making animation of the flow field is the fun part of CFD (Colorful Fluid Dynamics). In addition to the contour plot, let's create an arrow plot that represents the velocity using `quiver` function. The code below generates GIF. The numerical integration process discussed above is now in the function `updateVelocityField_Euler.m.`
 
 
 
@@ -672,7 +674,7 @@ for ii = 1:2000
     end
     
     % Update the velocity field (uses dct)
-    [u,v] = updateVelocityField(u,v,Nx,Ny,dx,dy,Re,dt,bctop,'dct');
+    [u,v] = updateVelocityField_Euler(u,v,Nx,Ny,dx,dy,Re,dt,bctop,'dct');
     
     % Update the plot at every recordRate steps
     if mod(ii,recordRate) == 0
