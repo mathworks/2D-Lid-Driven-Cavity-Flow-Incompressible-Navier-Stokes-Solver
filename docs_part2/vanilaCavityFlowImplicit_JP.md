@@ -309,7 +309,7 @@ Navier-Stokes 方程式を数値的に解くシリーズ、第２回目です。
 ## 境界条件について
 
 
-境界条件に由来する <img src="https://latex.codecogs.com/gif.latex?\inline&space;L_{bc}"/> について考えます。まず変数の定義位置と index の範囲を確認します。
+境界条件に由来する <img src="https://latex.codecogs.com/gif.latex?\inline&space;bc_L"/> について考えます。まず変数の定義位置と index の範囲を確認します。
 
 
 
@@ -349,7 +349,7 @@ Navier-Stokes 方程式を数値的に解くシリーズ、第２回目です。
 
 
 
-<img src="https://latex.codecogs.com/gif.latex?\begin{array}{rl}&space;Lu_x&space;(2,j)&space;&&space;=\frac{u(3,j)-2u(2,j)+u(1,j)}{dx^2&space;}\\&space;&space;&&space;=\frac{u(3,j)-2u(2,j)+u_{bc}&space;}{dx^2&space;}\\&space;&space;&&space;=\frac{u(i,3)-2u(i,2)}{dx^2&space;}+\frac{u_{bc}&space;}{dx^2&space;}&space;\end{array}"/>
+<img src="https://latex.codecogs.com/gif.latex?\begin{array}{rl}&space;Lu_x&space;(2,j)&space;&&space;=\frac{u(3,j)-2u(2,j)+u(1,j)}{dx^2&space;}\\&space;&space;&&space;=\frac{u(3,j)-2u(2,j)+u_{bc}&space;}{dx^2&space;}\\&space;&space;&&space;=\frac{u(3,j)-2u(2,j)}{dx^2&space;}+\frac{u_{bc}&space;}{dx^2&space;}&space;\end{array}"/>
 
 
 
