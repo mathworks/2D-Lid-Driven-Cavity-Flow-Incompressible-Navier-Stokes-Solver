@@ -6,13 +6,8 @@ Copyright (c) 2020, The MathWorks, Inc.
 Navier-Stokes 方程式を数値的に解くシリーズ、第２回目です。
 
 
-
    -  [非圧縮性 Navier-Stokes 方程式の数値解法１：導入編](../docs_part1/vanilaCavityFlow_JP.md) 
-   -  **非圧縮性 Navier-Stokes 方程式の数値解法２：拡散項の陰解法（この記事）** 
-   -  非圧縮性 Navier-Stokes 方程式の数値解法３：境界条件で遊ぶ 
-   -  非圧縮性 Navier-Stokes 方程式の数値解法４：可視化のいろいろ 
-   -  非圧縮性 Navier-Stokes 方程式の数値解法５：３次元への拡張 
-   -  非圧縮性 Navier-Stokes 方程式の数値解法６：Cコード生成で高速化 
+   -  非圧縮性 Navier-Stokes 方程式の数値解法２：拡散項の陰解法
 
 # この記事のゴール
 
