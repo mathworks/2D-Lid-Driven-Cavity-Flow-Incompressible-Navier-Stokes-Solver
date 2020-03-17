@@ -24,7 +24,7 @@ The numerical scheme is kept primitive; the explicit treatment of viscous term (
 - Click [here](./docs_part2/vanilaCavityFlowImplicit_EN.md) for detailed documentation in English.
 - 日本語のドキュメントは[こちら](./docs_part2/vanilaCavityFlowImplicit_JP.md) から
 
-The implicit treatments for viscous terms are implemented at low Reynolds number, namely the Crank-Nicolson method. For better stability for non-linear terms, Adams-Bashforth, and 3 steps-Runge-Kutta is also implemented. 
+The implicit treatments for viscous terms are implemented, namely the Crank-Nicolson method. For better stability for non-linear terms, Adams-Bashforth, and 3 steps-Runge-Kutta is also implemented. 
 
 拡散項に対して陰解法を実装しました。対流項へアダムス・バッシュフォースを使用したもの、3段階のルンゲクッタ法の２つの時間発展を実装しています。
 
