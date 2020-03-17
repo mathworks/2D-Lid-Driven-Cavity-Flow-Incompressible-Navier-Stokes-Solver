@@ -7,7 +7,7 @@ Navier Stokes equation is numerically solved using a simple 2nd order finite dif
 ![sample](./gif/animation_sample1e2and1e4.gif)
 (Left: Re = 100, Right: Re = 10,000)
 
-The top lid changes its direction. The arrow denotes the velocity field, and the contour denotes its magnitude.
+The arrow denotes the velocity field, and the contour denotes its magnitude.
 
 ## Part 1
 
