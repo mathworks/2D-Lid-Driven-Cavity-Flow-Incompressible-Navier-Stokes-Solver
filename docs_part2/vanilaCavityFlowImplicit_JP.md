@@ -1,4 +1,5 @@
 # 非圧縮性 Navier-Stokes 方程式の数値解法２：拡散項の陰解法
+Copyright (c) 2020, The MathWorks, Inc.
 # はじめに
 
 
