@@ -6,7 +6,7 @@ Navier-Stokes 方程式を数値的に解くシリーズ、第２回目です。
 
 
 
-   -  [非圧縮性 Navier-Stokes 方程式の数値解法１：導入編](https://qiita.com/eigs/items/628a2aeb3cb9eef91093) 
+   -  [非圧縮性 Navier-Stokes 方程式の数値解法１：導入編](../docs_part1/vanilaCavityFlow_JP.md) 
    -  **非圧縮性 Navier-Stokes 方程式の数値解法２：拡散項の陰解法（この記事）** 
    -  非圧縮性 Navier-Stokes 方程式の数値解法３：境界条件で遊ぶ 
    -  非圧縮性 Navier-Stokes 方程式の数値解法４：可視化のいろいろ 
@@ -16,7 +16,7 @@ Navier-Stokes 方程式を数値的に解くシリーズ、第２回目です。
 # この記事のゴール
 
 
-解析対象については前回の記事（[非圧縮性 Navier-Stokes 方程式の数値解法１：導入編](https://qiita.com/eigs/items/628a2aeb3cb9eef91093)）を参照してください。
+解析対象については前回の記事（[非圧縮性 Navier-Stokes 方程式の数値解法１：導入編](../docs_part1/vanilaCavityFlow_JP.md)）を参照してください。
 
 
 
