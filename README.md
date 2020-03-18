@@ -9,8 +9,7 @@ Navier Stokes equation is numerically solved using a simple 2nd order finite dif
 
 The arrow denotes the velocity field, and the contour denotes its magnitude.
 
-## Part 1
-
+## Part 1: Getting Started with the Cavity Flow
 
 - Click [here](./docs_part1/vanilaCavityFlow_EN.md) for detailed documentation in English.
 - 日本語のドキュメントは[こちら](./docs_part1/vanilaCavityFlow_JP.md) から
@@ -19,7 +18,7 @@ The numerical scheme is kept primitive; the explicit treatment of viscous term (
 
 まずは単純な手法でキャビティ流れのシミュレーションを実施します。
 
-## Part 2
+## Part 2: Implicit Scheme for the Viscous Terms
 
 - Click [here](./docs_part2/vanilaCavityFlowImplicit_EN.md) for detailed documentation in English.
 - 日本語のドキュメントは[こちら](./docs_part2/vanilaCavityFlowImplicit_JP.md) から
