@@ -165,7 +165,10 @@ Signal Processing Toolbox (離散コサイン変換 `dct` の部分だけ）
 上で紹介した 3 つの条件で 解 <img src="https://latex.codecogs.com/gif.latex?\inline&space;p(x)=x^2&space;/2+C_1&space;x+C_2"/> （<img src="https://latex.codecogs.com/gif.latex?\inline&space;C_1&space;,C_2"/> は積分定数）が求まるかどうか確認します。
 
 
-  
+```matlab
+clear, close all
+addpath('../functions/')
+```
 # 1. セルエッジ上で変数が定義される Dirichet 境界条件
 
 
