@@ -83,7 +83,7 @@ Signal Processing Toolbox (離散コサイン変換 `dct` の部分だけ）
 
 
 
-![image_0.png](FastSolverForPoissonEquation_images/image_0.png)
+![image_0.png](FastSolverForPoissonEquation_JP_images/image_0.png)
 
 
 
@@ -172,7 +172,7 @@ addpath('../functions/')
 # 1. セルエッジ上で変数が定義される Dirichet 境界条件
 
 
-![image_1.png](FastSolverForPoissonEquation_images/image_1.png)
+![image_1.png](FastSolverForPoissonEquation_JP_images/image_1.png)
 
 
 
@@ -274,7 +274,7 @@ hold off
 legend(["Direct","Exact"])
 ```
 
-![figure_0.png](FastSolverForPoissonEquation_images/figure_0.png)
+![figure_0.png](FastSolverForPoissonEquation_JP_images/figure_0.png)
 
 
 
@@ -387,7 +387,7 @@ ans = 6.0521e-14
 
 
 
-![image_2.png](FastSolverForPoissonEquation_images/image_2.png)
+![image_2.png](FastSolverForPoissonEquation_JP_images/image_2.png)
 
 
 
@@ -495,7 +495,7 @@ hold off
 legend(["Direct","Exact"])
 ```
 
-![figure_1.png](FastSolverForPoissonEquation_images/figure_1.png)
+![figure_1.png](FastSolverForPoissonEquation_JP_images/figure_1.png)
 
 
 
@@ -607,7 +607,7 @@ ans = 7.4354e-14
 
 
 
-![image_3.png](FastSolverForPoissonEquation_images/image_3.png)
+![image_3.png](FastSolverForPoissonEquation_JP_images/image_3.png)
 
 
 
@@ -744,7 +744,7 @@ hold off
 legend(["Direct","Exact"])
 ```
 
-![figure_2.png](FastSolverForPoissonEquation_images/figure_2.png)
+![figure_2.png](FastSolverForPoissonEquation_JP_images/figure_2.png)
 
 ## 離散コサイン変換の適用
 
@@ -819,7 +819,7 @@ hold off
 legend(["Direct","DCT","Exact"])
 ```
 
-![figure_3.png](FastSolverForPoissonEquation_images/figure_3.png)
+![figure_3.png](FastSolverForPoissonEquation_JP_images/figure_3.png)
 
 
 
