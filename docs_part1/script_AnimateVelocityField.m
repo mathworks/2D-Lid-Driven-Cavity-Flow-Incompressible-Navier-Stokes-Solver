@@ -85,7 +85,7 @@ for ii = 1:2000
     end
     
     % Update the velocity field (uses dct)
-    [u,v] = updateVelocityField_Euler(u,v,Nx,Ny,dx,dy,Re,dt,bctop,'dct');
+    [u,v] = updateVelocityField_Euler_bctop(u,v,Nx,Ny,dx,dy,Re,dt,bctop,'dct');
     
     % Update the plot at every recordRate steps
     if mod(ii,recordRate) == 0

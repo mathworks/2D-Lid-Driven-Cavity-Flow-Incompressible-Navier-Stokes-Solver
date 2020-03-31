@@ -1,12 +1,12 @@
-function [u,v] = updateVelocityField_Euler(u,v,nx,ny,dx,dy,Re,dt,bctop,method)
+function [u,v,p] = updateVelocityField_Euler(u,v,p,nx,ny,dx,dy,Re,dt,velbc,method,uForce,vForce,velbc1)
 % Copyright (c) 2020, The MathWorks, Inc.
 
 % Apply boundary conditions:
 % represented as the values on ghost cells
-u(:,1) = -u(:,2); v(:,1) = 0.;             %bottom
-u(:,end) = 2*bctop-u(:,end-1);  v(:,end) = 0.;  %top
-u(1,:) = 0.;  v(1,:) = -v(2,:);             %left
-u(end,:) = 0.;  v(end,:) = -v(end-1,:);    %right
+u(:,1) = 2*velbc.uBottom - u(:,2); v(:,1) = velbc.vBottom;             %bottom
+u(:,end) = 2*velbc.uTop - u(:,end-1);  v(:,end) = velbc.vTop;  %top
+u(1,:) = velbc.uLeft;  v(1,:) = 2*velbc.vLeft - v(2,:);             %left
+u(end,:) = velbc.uRight;  v(end,:) = 2*velbc.vRight - v(end-1,:);    %right
 
 %  拡散項(u) Get viscous terms for u
 Lux = (u(1:end-2,2:end-1)-2*u(2:end-1,2:end-1)+u(3:end,2:end-1))/dx^2; % nx-1 * ny
@@ -32,16 +32,29 @@ vvce = vce.*vce;
 % 3-1. get derivative for u
 Nu = (uuce(2:end,:) - uuce(1:end-1,:))/dx;
 Nu = Nu + (uvco(2:end-1,2:end) - uvco(2:end-1,1:end-1))/dy;
+Nu = Nu - uForce;
 
 % 3-2. get derivative for v
 Nv = (vvce(:,2:end) - vvce(:,1:end-1))/dy;
 Nv = Nv + (uvco(2:end,2:end-1) - uvco(1:end-1,2:end-1))/dx;
+Nv = Nv - vForce;
 
 %  仮の速度場算出
 % 一次精度のオイラー積分
 % Get intermidiate velocity
+
+% dpx = (p(2:end,:)-p(1:end-1,:))/dx;
+% dpy = (p(:,2:end)-p(:,1:end-1))/dy;
+% u(2:end-1,2:end-1) = u(2:end-1,2:end-1) + dt*(-dpx-Nu + (Lux+Luy)/Re);
+% v(2:end-1,2:end-1) = v(2:end-1,2:end-1) + dt*(-dpy-Nv + (Lvx+Lvy)/Re);
+
 u(2:end-1,2:end-1) = u(2:end-1,2:end-1) + dt*(-Nu + (Lux+Luy)/Re);
 v(2:end-1,2:end-1) = v(2:end-1,2:end-1) + dt*(-Nv + (Lvx+Lvy)/Re);
+
+u(:,1) = 2*velbc1.uBottom - u(:,2); v(:,1) = velbc1.vBottom;             %bottom
+u(:,end) = 2*velbc1.uTop - u(:,end-1);  v(:,end) = velbc1.vTop;  %top
+u(1,:) = velbc1.uLeft;  v(1,:) = 2*velbc1.vLeft - v(2,:);             %left
+u(end,:) = velbc1.uRight;  v(end,:) = 2*velbc1.vRight - v(end-1,:);    %right
 
 % 新しい速度場
 % 圧力の式（ポワソン方程式）を解いて速度場を質量保存を満たす場に写像。

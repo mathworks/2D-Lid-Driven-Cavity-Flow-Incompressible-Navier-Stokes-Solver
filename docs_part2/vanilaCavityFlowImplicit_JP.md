@@ -1,18 +1,23 @@
 # 非圧縮性 Navier-Stokes 方程式の数値解法２：拡散項の陰解法
+
+
 Copyright (c) 2020, The MathWorks, Inc.
+
+
 # はじめに
 
 
 Navier-Stokes 方程式を数値的に解くシリーズ、第２回目です。
 
 
-   -  [非圧縮性 Navier-Stokes 方程式の数値解法１：導入編](../docs_part1/vanilaCavityFlow_JP.md) 
-   -  非圧縮性 Navier-Stokes 方程式の数値解法２：拡散項の陰解法
+
+   -  非圧縮性 Navier-Stokes 方程式の数値解法１：導入編 
+   -  **非圧縮性 Navier-Stokes 方程式の数値解法２：拡散項の陰解法** 
 
 # この記事のゴール
 
 
-解析対象については前回の記事（[非圧縮性 Navier-Stokes 方程式の数値解法１：導入編](../docs_part1/vanilaCavityFlow_JP.md)）を参照してください。
+解析対象については前回の記事（非圧縮性 Navier-Stokes 方程式の数値解法１：導入編）を参照してください。
 
 
 
@@ -59,7 +64,7 @@ Navier-Stokes 方程式を数値的に解くシリーズ、第２回目です。
 # 拡散項と対流項の安定性
 
 
-この辺はノイマンの安定解析やクーラン数（Courant number）の話。CDFの教科書には必ず出てくるネタですね。ここでは要点だけ触れておくと、拡散方程式のオイラー陽解法・中央差分における安定性条件は
+この辺はノイマンの安定解析やクーラン数（Courant number）の話。CFD の教科書には必ず出てくるネタですね。ここでは要点だけ触れておくと、拡散方程式のオイラー陽解法・中央差分における安定性条件は
 
 
 
@@ -344,7 +349,7 @@ Navier-Stokes 方程式を数値的に解くシリーズ、第２回目です。
 
 
 
-<img src="https://latex.codecogs.com/gif.latex?\begin{array}{rl}&space;Lu_x&space;(2,j)&space;&&space;=\frac{u(3,j)-2u(2,j)+u(1,j)}{dx^2&space;}\\&space;&space;&&space;=\frac{u(3,j)-2u(2,j)+u_{bc}&space;}{dx^2&space;}\\&space;&space;&&space;=\frac{u(3,j)-2u(2,j)}{dx^2&space;}+\frac{u_{bc}&space;}{dx^2&space;}&space;\end{array}"/>
+<img src="https://latex.codecogs.com/gif.latex?\begin{array}{rl}&space;Lu_x&space;(2,j)&space;&&space;=\frac{u(3,j)-2u(2,j)+u(1,j)}{dx^2&space;}\\&space;&space;&&space;=\frac{u(3,j)-2u(2,j)+u_{bc}&space;}{dx^2&space;}\\&space;&space;&&space;=\frac{u(3,i)-2u(2,i)}{dx^2&space;}+\frac{u_{bc}&space;}{dx^2&space;}&space;\end{array}"/>
 
 
 
@@ -555,7 +560,7 @@ filename = 'animation_part2.gif'; % Specify the output file name
 
 ```matlab
 Re = 5000; % Reynolds number
-nt = 2000; % max time steps
+nt = 3000; % max time steps
 Lx = 1; Ly = 1; % domain size
 Nx = 80; Ny = 80; % Number of grids
 dt = 0.003; % time step;
@@ -643,7 +648,7 @@ haxes.CLim = [0,0.6];
 ```matlab
 initialFrame = true;
 
-for ii = 1:3000
+for ii = 1:nt
     bctop = 1; % 境界上部の速度 u
     
     if ii > 1000
@@ -652,8 +657,8 @@ for ii = 1:3000
     end
     
     % 速度場更新（コサイン変換使用）
-    [u,v] = updateVelocityField_CNAB(u,v,Nx,Ny,dx,dy,Re,dt,bctop,'dct');
-%     [u,v] = updateVelocityField_RK3(u,v,Nx,Ny,dx,dy,Re,dt,bctop,'dct');
+    [u,v] = updateVelocityField_CNAB_bctop(u,v,Nx,Ny,dx,dy,Re,dt,bctop,'dct');
+%     [u,v] = updateVelocityField_RK3_bctop(u,v,Nx,Ny,dx,dy,Re,dt,bctop,'dct');
     
     % 描画は recordRate 毎に実施
     if mod(ii,recordRate) == 0
@@ -703,7 +708,7 @@ end
 
 
 ```matlab
-    [u,v] = updateVelocityField_CNAB(u,v,Nx,Ny,dx,dy,Re,dt,bctop,'dct');
+    [u,v] = updateVelocityField_CNAB_bctop(u,v,Nx,Ny,dx,dy,Re,dt,bctop,'dct');
 ```
 
 
@@ -711,7 +716,7 @@ end
 
 
 ```matlab
-    [u,v] = updateVelocityField_RK3(u,v,Nx,Ny,dx,dy,Re,dt,bctop,'dct');
+    [u,v] = updateVelocityField_RK3_bctop(u,v,Nx,Ny,dx,dy,Re,dt,bctop,'dct');
 ```
 
 

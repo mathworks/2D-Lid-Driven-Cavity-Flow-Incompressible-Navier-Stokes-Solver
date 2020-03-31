@@ -77,8 +77,8 @@ Signal Processing Toolbox (離散コサイン変換 `dct` の部分だけ）
 
 
 
-   1.  セルエッジ上で変数が定義される Dirichet 境界条件 
-   1.  セル中央で変数が定義される Dirichet 境界条件 
+   1.  セルエッジ上で変数が定義される Dirichlet 境界条件 
+   1.  セル中央で変数が定義される Dirichlet 境界条件 
    1.  セル中央で変数が定義される Neumann 境界条件 
 
 
@@ -169,7 +169,7 @@ Signal Processing Toolbox (離散コサイン変換 `dct` の部分だけ）
 clear, close all
 addpath('../functions/')
 ```
-# 1. セルエッジ上で変数が定義される Dirichet 境界条件
+# 1. セルエッジ上で変数が定義される Dirichlet 境界条件
 
 
 ![image_1.png](FastSolverForPoissonEquation_JP_images/image_1.png)
@@ -374,7 +374,7 @@ ans = 6.0521e-14
 
 
   
-# 2. セル中央で変数が定義される Dirichet 境界条件
+# 2. セル中央で変数が定義される Dirichlet 境界条件
 
 
 こちらも先ほどと同じく、境界条件自体はセルエッジ両端で定義されるのですが、解かれる変数はセル中央で定義されるケース（Staggered Grid）です。 2次精度の有限差分の場合、領域外に仮想速度を想定します。
@@ -845,8 +845,8 @@ ans = 3.2725e-14
 
 
 
-   1.  セルエッジ上で変数が定義される Dirichet 境界条件：離散サイン変換（DST-I） 
-   1.  セル中央で変数が定義される Dirichet 境界条件：離散サイン変換（DST-II と DST-III） 
+   1.  セルエッジ上で変数が定義される Dirichlet 境界条件：離散サイン変換（DST-I） 
+   1.  セル中央で変数が定義される Dirichlet 境界条件：離散サイン変換（DST-II と DST-III） 
    1.  セル中央で変数が定義される Neumann 境界条件：離散コサイン変換（DCT-II と DCT-III） 
 
 
