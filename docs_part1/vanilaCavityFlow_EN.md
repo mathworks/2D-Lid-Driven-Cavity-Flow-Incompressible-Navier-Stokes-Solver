@@ -350,7 +350,7 @@ Again, the computation will diverge if you use a larger value for dt or a smalle
 
 ```matlab
 Re = 300; % Reynolds number
-nt = 50; % max time steps (‚¨‚µ‚Å­‚µ‚¾‚¯)
+nt = 50; % max time steps (ãŠè©¦ã—ã§å°‘ã—ã ã‘)
 Lx = 1; Ly = 1; % domain size
 Nx = 80; Ny = 80; % Number of grids
 dt = 0.01; % time step;
@@ -399,7 +399,7 @@ Make a contour plot for the magnitude of the velocity.
 
 
 ```matlab
-[Xce,Yce] = meshgrid(xce,yce); % cell center‚ÌÀ•WƒOƒŠƒbƒh
+[Xce,Yce] = meshgrid(xce,yce); % cell centerã®åº§æ¨™ã‚°ãƒªãƒƒãƒ‰
 [~,h_abs] = contourf(Xce',Yce',sqrt(uce.^2+vce.^2));
 ```
 ```
@@ -556,7 +556,7 @@ Good.
 # Animation of the Velocity Field
 
 
-Making animation of the flow field is the fun part of CFD (Colorful Fluid Dynamics). In addition to the contour plot, let's create an arrow plot that represents the velocity using `quiver` function. The code below generates GIF. The numerical integration process discussed above is now in the function `updateVelocityField_Euler.m.`
+Making animation of the flow field is the fun part of CFD (Colorful Fluid Dynamics). In addition to the contour plot, let's create an arrow plot that represents the velocity using `quiver` function. The code below generates GIF. The numerical integration process discussed above is now in the function `updateVelocityField_Euler_bctop.m.`
 
 
 
@@ -626,7 +626,7 @@ Quiver plot
 
 
 ```matlab
-% Downsample the dataid = downsampledj
+% Downsample the dataï¼ˆd = downsampledï¼‰
 xced = xce(1:visRate:end);
 yced = yce(1:visRate:end);
 [Xced,Yced] = meshgrid(xced, yced);
@@ -665,7 +665,7 @@ Just to make it a little fun, the velocity of the top lid reverses at the 1000 s
 ```matlab
 initialFrame = true;
 
-for ii = 1:2000
+for ii = 1:nt
     bctop = 1; % top velocity
     
     if ii > 1000
@@ -674,7 +674,7 @@ for ii = 1:2000
     end
     
     % Update the velocity field (uses dct)
-    [u,v] = updateVelocityField_Euler(u,v,Nx,Ny,dx,dy,Re,dt,bctop,'dct');
+    [u,v] = updateVelocityField_Euler_bctop(u,v,Nx,Ny,dx,dy,Re,dt,bctop,'dct');
     
     % Update the plot at every recordRate steps
     if mod(ii,recordRate) == 0
@@ -689,14 +689,14 @@ for ii = 1:2000
         drawnow
         
         if recordGIF
-            frame = getframe(gcf); %#ok<UNRCH> % Figure ‰æ–Ê‚ğƒ€[ƒr[ƒtƒŒ[ƒ€i\‘¢‘Ìj‚Æ‚µ‚ÄƒLƒƒƒvƒ`ƒƒ
-            tmp = frame2im(frame); % ‰æ‘œ‚É•ÏX
-            [A,map] = rgb2ind(tmp,256); % RGB -> ƒCƒ“ƒfƒbƒNƒX‰æ‘œ‚É
+            frame = getframe(gcf); %#ok<UNRCH> % Figure ç”»é¢ã‚’ãƒ ãƒ¼ãƒ“ãƒ¼ãƒ•ãƒ¬ãƒ¼ãƒ ï¼ˆæ§‹é€ ä½“ï¼‰ã¨ã—ã¦ã‚­ãƒ£ãƒ—ãƒãƒ£
+            tmp = frame2im(frame); % ç”»åƒã«å¤‰æ›´
+            [A,map] = rgb2ind(tmp,256); % RGB -> ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ç”»åƒã«
             if initialFrame
                 imwrite(A,map,filename,'gif','LoopCount',Inf,'DelayTime',0.1);
                 initialFrame = false;
             else
-                imwrite(A,map,filename,'gif','WriteMode','append','DelayTime',0.1);% ‰æ‘œ‚ğƒAƒyƒ“ƒh
+                imwrite(A,map,filename,'gif','WriteMode','append','DelayTime',0.1);% ç”»åƒã‚’ã‚¢ãƒšãƒ³ãƒ‰
             end
         end
         

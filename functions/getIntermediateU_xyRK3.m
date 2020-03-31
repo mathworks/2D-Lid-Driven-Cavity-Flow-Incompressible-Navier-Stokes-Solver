@@ -12,9 +12,9 @@ if isempty(A4u1) || any(size(L4u) ~= [(nx-1)*ny,(nx-1)*ny]) || dtRe_old ~= dt/Re
     maskU = false(nx+1,ny+2);
     maskU(2:end-1,2:end-1) = true;
     L4u = getL4u(nx,ny,dx,dy,maskU);
-    A4u1 = eye(size(L4u),'like',L4u)-(8/15)*dt/(Re)*L4u;
-    A4u2 = eye(size(L4u),'like',L4u)-(2/15)*dt/(Re)*L4u;
-    A4u3 = eye(size(L4u),'like',L4u)-(2/6)*dt/(Re)*L4u;
+    A4u1 = eye(size(L4u),'like',L4u)-(4/15)*dt/(Re)*L4u; %beta(1)
+    A4u2 = eye(size(L4u),'like',L4u)-(1/15)*dt/(Re)*L4u; %beta(2)
+    A4u3 = eye(size(L4u),'like',L4u)-(1/6)*dt/(Re)*L4u; %beta(3)
     A4u1 = decomposition(A4u1);
     A4u2 = decomposition(A4u2);
     A4u3 = decomposition(A4u3);

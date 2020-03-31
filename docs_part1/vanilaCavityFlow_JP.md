@@ -1,25 +1,25 @@
-# �񈳏k�� Navier-Stokes �������̐��l��@�P�F������
+# 非圧縮性 Navier-Stokes 方程式の数値解法１：導入編
 
 
 Copyright (c) 2020, The MathWorks, Inc.
 
 
-# �͂��߂�
+# はじめに
 
 
-Navier-Stokes �������𐔒l�I�ɉ����܂��B�ӊO�ƊȒP�ɗ��̃V�~�����[�V�����ł���񂾂ȁA�A�Ǝv���Ă��炦��Ɗ������ł��B
+Navier-Stokes 方程式を数値的に解きます。意外と簡単に流体シミュレーションできるんだな、、と思ってもらえると嬉しいです。
 
 
   
-# ���̋L���̃S�[��
+# この記事のゴール
 
 
-�ЂƂ܂��u�����΁v�Ƃ��ẴS�[����
+ひとまず「導入偏」としてのゴールは
 
 
 
-   -  �ȉ��̐}����邱�� 
-   -  �����i�K�@�iFractional Step Method�j�@�𗝉����邱�� 
+   -  以下の図を作ること 
+   -  部分段階法（Fractional Step Method）法を理解すること 
 
 
 
@@ -28,50 +28,50 @@ Navier-Stokes �������𐔒l�I�ɉ����܂��B�ӊO�ƊȒP�ɗ��̃V�~�����[�V�����ł����
 
 
 
-���U���ɍۂ��� Perot (1993) �̋��E�����̋c�_�͂��܂���{��Ō������Ȃ��̂ŁA�V�������ɂȂ�΂Ǝv���܂��B
+離散化に際して Perot (1993) の境界条件の議論はあまり日本語で見かけないので、新しい情報になればと思います。
 
 
 
 
-CFD �Ɋւ����ɂƂ��Ă͊�{�I�Ȃ��Ƃ��Ǝv���܂����A�����̌o���� 2014�N������Ŏ~�܂��Ă���̂œ������v���o���Ȃ��珑���Ă��܂��B���ӌ�������Ɗ������ł��B
+CFD に関わる方にとっては基本的なことかと思いますが、自分の経験は 2014年あたりで止まっているので当時を思い出しながら書いています。ご意見頂けると嬉しいです。
 
 
-## ���ӓ_
+## 注意点
 
 
-�����ŏЉ�Ă���R�[�h�́A���Ԑϕ��͈ꎟ���x�̃I�C���[�z��@�A�g�U�����z��@�Ȃ̂ŏ����iReynolds ���A�O���b�h���j��ς���Ɣ��U���܂��B���ꂼ��ւ̑΍�ɂ��Ă͂܂�����I
+ここで紹介しているコードは、時間積分は一次精度のオイラー陽解法、拡散項も陽解法なので条件（Reynolds 数、グリッド数）を変えると発散します。それぞれへの対策についてはまた次回！
 
 
-## ���s��
+## 実行環境
 
    -  MATLAB R2019b 
-   -  Signal Processing Toolbox (����*) 
+   -  Signal Processing Toolbox (推奨*) 
 
 
 
-*) �|���\�������������������� Signal Processing Toolbox ���g���Ă��܂����A���ږ@�┽���@�ɂ���� MATLAB �{�̂�����OK�ł��B
+*) ポワソン方程式を解く部分に Signal Processing Toolbox を使っていますが、直接法や反復法にすれば MATLAB 本体だけでOKです。
 
 
-# �Ȃ� MATLAB �� CFD�H
+# なぜ MATLAB で CFD？
 
 
-���l�v�Z���Č��Ǎs��v�Z�Ȃ̂� MATLAB �����ӂȗ̈�͂��B�������ȒP�Ȃ̂Ő��l���̂̓����Ƃ��Ă͂����c�[�����Ǝv���܂��B
-
-
-
-
-�ł��v�Z���x���E�E�Ƃ������O������܂��� R2015b �ȍ~�A�v�Z�G���W�������V���ꑬ���Ȃ��Ă���ƕ������AMATLAB Coder �� Parallel Computing Toolbox �����܂��g���΂��̂܂ܑ�K�͂Ȍv�Z���ł���悤�ȃR�[�h�����������ł���̂ł́E�E�H�Ƃ����W�����҂�����܂��B
-
-
-# �V�~�����[�V�����Ώ�
-
-
-���l���̗͊w�� "Hello World" �I�ۑ�B�Q������ Lid-Driven cavity flow �i�L���r�e�B����j���v�Z���܂��B�摜��������Ƒ�R���ʂ��ς��Ă��邱�Ƃ�����킩��ʂ�A���Ȃ�������ꂽ�Ώۂł��BGhia 1982 [1] ���ǂ��Q�Ƃ���܂��B
+数値計算って結局行列計算なので MATLAB が得意な領域はず。可視化も簡単なので数値流体の導入としてはいいツールだと思います。
 
 
 
 
-�����ł͒�Ԓʂ�񈳏k�����肵�A�v�Z�̈�͐����`�A�����ċ��E�����͑�σV���v���ɏ�ӂ����������ɑ��x������܂��B�W�����ɃX���C�h����悤�ȃC���[�W�ł��B�����̗��̂����������Ď��v���ɂ��邮����z�������܂��B
+でも計算速度が・・という懸念もありますが R2015b 以降、計算エンジンが刷新され速くなっていると聞くし、MATLAB Coder や Parallel Computing Toolbox もうまく使えばそのまま大規模な計算もできるようなコードも自動生成できるのでは・・？という淡い期待もあります。
+
+
+# シミュレーション対象
+
+
+数値流体力学の "Hello World" 的課題。２次元の Lid-Driven cavity flow （キャビティ流れ）を計算します。画像検索すると沢山結果が変えてくることからもわかる通り、かなりやりつくされた対象です。Ghia 1982 [1] が良く参照されます。
+
+
+
+
+ここでは定番通り非圧縮を仮定し、計算領域は正方形、そして境界条件は大変シンプルに上辺だけ横方向に速度があります。蓋が横にスライドするようなイメージです。内部の流体が引きずられて時計回りにぐるぐる回る想像がつきます。
 
 
 
@@ -81,14 +81,14 @@ CFD �Ɋւ����ɂƂ��Ă͊�{�I�Ȃ��Ƃ��Ǝv���܂����A�����̌o���� 2014�N������Ŏ
 
 
 
-�b������ɊȒP�ɂ��邽�߁A�v�Z�O���b�h�iStaggerd Grid�j�͓��Ԋu��z�肵�܂��B���̗̂����o���Ȃ��̂ŋ��E�����I�Ɍv�Z���y�ł��B�܂����E�����ŗV�񂾂肷���₱�����Ƃ���͂܂�����ȍ~�B
+話をさらに簡単にするため、計算グリッド（Staggerd Grid）は等間隔を想定します。流体の流入出がないので境界条件的に計算が楽です。また境界条件で遊んだりするややこしいところはまた次回以降。
 
 
   
-# Navier-Stokes �������i�񈳏k�j
+# Navier-Stokes 方程式（非圧縮）
 
 
-�܂��͎x�z�������𐔒l�I�ɉ�����悤�ɗ��U�����܂��B����Ώۂɂ��鎮�͂�����
+まずは支配方程式を数値的に解けるように離散化します。今回対象にする式はこちら
 
 
 
@@ -96,29 +96,29 @@ CFD �Ɋւ����ɂƂ��Ă͊�{�I�Ȃ��Ƃ��Ǝv���܂����A�����̌o���� 2014�N������Ŏ
 
 
 
-�^���ʕۑ��Ǝ��ʕۑ��̎��ł��B���ꂼ��̍����Ӗ�����Ƃ���͗��̗͊w�̋��ȏ��ŕ��K���ĉ������܂��B ���� <img src="https://latex.codecogs.com/gif.latex?\inline&space;p"/> �̎��������̂��񈳏k���Ȃ�ł͂̉ۑ�B
+運動量保存と質量保存の式です。それぞれの項が意味するところは流体力学の教科書で復習して下さいませ。 圧力 <img src="https://latex.codecogs.com/gif.latex?\inline&space;p"/> の式が無いのが非圧縮性ならではの課題。
 
 
   
-# Fractional Step Method�i�����i�K�@�j
+# Fractional Step Method（部分段階法）
 
 
-�����ł͕����i�K�@�ƌĂ΂����@�� 2 �i�K�ɕ����ĉ����܂��B
-
-
-
-   1.  �܂��^���ʂ̎����爳�͍�����菜�������ŉ��̑��x������߂�B 
-   1.  ���ʕۑ��̎��𖞂����悤�ɉ��̑��x����X�V���ĐV�������x��Ƃ���B 
+ここでは部分段階法と呼ばれる方法で 2 段階に分けて解きます。
 
 
 
-���̎�@���̂� Harlow and Welch (1965) [2] �� Chorin (1968) [3] �ȂǂŒ�Ă��ꂽ�ƏЉ��邱�Ƃ������AMAC (Marker and Cell method) �@�Ƃ��Ă΂�܂��B���͍����c�����o�[�W������ SMAC (Simplified MAC) �Ƃ��B���̕ӂ̗��j��Ăі��͐����͂����藝���ł��Ă��Ȃ��̂ł����A�ڂ������R�����g���������I���Ԕ��W�̍����x���E���艻��}���� Kim and Moin (1985) [4] �̎�@�����p�I�ł��B
+   1.  まず運動量の式から圧力項を取り除いた式で仮の速度場を求める。 
+   1.  質量保存の式を満たすように仮の速度場を更新して新しい速度場とする。 
 
 
-## ���͂̋��E����
+
+この手法自体は Harlow and Welch (1965) [2] や Chorin (1968) [3] などで提案されたと紹介されることが多く、MAC (Marker and Cell method) 法とも呼ばれます。圧力項を残したバージョンは SMAC (Simplified MAC) とか。この辺の歴史や呼び名は正直はっきり理解できていないのですが、詳しい方コメントください！時間発展の高精度化・安定化を図った Kim and Moin (1985) [4] の手法も実用的です。
 
 
-���Ȃ݂ɂ��̎�@�� 
+## 圧力の境界条件
+
+
+ちなみにこの手法は 
 
 
 > *serious confusion and/or disagreement concerning boundary conditions and the details of the methods implementation* (Perot 1993) [5]
@@ -126,18 +126,18 @@ CFD �Ɋւ����ɂƂ��Ă͊�{�I�Ȃ��Ƃ��Ǝv���܂����A�����̌o���� 2014�N������Ŏ
 
 
 
-�ȂǂƁA���ċc�_������オ���Ă���A�����̂�����͐��� Perot (1993) [5] ���Q�Ƃ��Ă݂Ă��������B���E�������H�v���� H. Le and P. Moin (1991) [6] �Ȃǂ��ʔ����Ǝv���܂��B���ƂȂ��Ă͌Â��b�Ȃ�ł��傤���ǁB
+などと、かつて議論が盛り上がっており、興味のある方は是非 Perot (1993) [5] を参照してみてください。境界条件を工夫した H. Le and P. Moin (1991) [6] なども面白いと思います。今となっては古い話なんでしょうけど。
 
 
 
 
-�l�I�ɂ� Perot (1993) [5] �� Chang (2002) [7] �ŏЉ��Ă���A���U������ Navier-Stokes �������� LU �������x�[�X�ɂ����c�_���C�ɓ����Ă���̂ŁA����������ł͍̗p���܂��B**���͂̋��E�����͕s�v�I**�ƑN�₩�Ȍ�����񎦂��Ă��܂��B
+個人的には Perot (1993) [5] や Chang (2002) [7] で紹介されている、離散化した Navier-Stokes 方程式の LU 分解をベースにした議論が気に入っているので、これをここでは採用します。**圧力の境界条件は不要！**と鮮やかな見解を提示しています。
 
 
-# ���U����@
+# 離散化手法
 
 
-�����ł͘b���ȒP�ɂ��邽�߂ɁA�v���؂��� 1 �����x�̃I�C���[�̗z��@�Ŏ��Ԑϕ�����Ƃ��܂��B��������Ɨ��U������ Navier-Stokes ��������
+ここでは話を簡単にするために、思い切って 1 次精度のオイラーの陽解法で時間積分するとします。そうすると離散化した Navier-Stokes 方程式は
 
 
 
@@ -145,7 +145,7 @@ CFD �Ɋւ����ɂƂ��Ă͊�{�I�Ȃ��Ƃ��Ǝv���܂����A�����̌o���� 2014�N������Ŏ
 
 
 
-�ƂȂ�A�s��ŕ\�������
+となり、行列で表現すると
 
 
 
@@ -153,12 +153,12 @@ CFD �Ɋւ����ɂƂ��Ă͊�{�I�Ȃ��Ƃ��Ǝv���܂����A�����̌o���� 2014�N������Ŏ
 
 
 
-����Ȋ����B
+こんな感じ。
 
 
 
 
-������ <img src="https://latex.codecogs.com/gif.latex?\inline&space;{I}"/> �͒P�ʍs��A<img src="https://latex.codecogs.com/gif.latex?\inline&space;{N}"/> �͑Η����̃I�y���[�^�A<img src="https://latex.codecogs.com/gif.latex?\inline&space;{G}"/> �͈��͌��z���v�Z����I�y���[�^�A<img src="https://latex.codecogs.com/gif.latex?\inline&space;{D}"/> �͔��U���v�Z����I�y���[�^�A<img src="https://latex.codecogs.com/gif.latex?\inline&space;bc"/> �͔��U���v�Z����ۂ̑��x�̋��E�����ɋN������ǉ����A<img src="https://latex.codecogs.com/gif.latex?\inline&space;p^{\prime&space;}&space;=dt\cdot&space;p"/>�B������ <img src="https://latex.codecogs.com/gif.latex?\inline&space;{r}^n"/> �́A
+ここで <img src="https://latex.codecogs.com/gif.latex?\inline&space;{I}"/> は単位行列、<img src="https://latex.codecogs.com/gif.latex?\inline&space;{N}"/> は対流項のオペレータ、<img src="https://latex.codecogs.com/gif.latex?\inline&space;{G}"/> は圧力勾配を計算するオペレータ、<img src="https://latex.codecogs.com/gif.latex?\inline&space;{D}"/> は発散を計算するオペレータ、<img src="https://latex.codecogs.com/gif.latex?\inline&space;bc"/> は発散を計算する際の速度の境界条件に起因する追加項、<img src="https://latex.codecogs.com/gif.latex?\inline&space;p^{\prime&space;}&space;=dt\cdot&space;p"/>。そして <img src="https://latex.codecogs.com/gif.latex?\inline&space;{r}^n"/> は、
 
 
 
@@ -166,13 +166,13 @@ CFD �Ɋւ����ɂƂ��Ă͊�{�I�Ȃ��Ƃ��Ǝv���܂����A�����̌o���� 2014�N������Ŏ
 
 
 
-�ł��B
+です。
 
 
-# LU ���� ���� �����i�K�@
+# LU 分解 から 部分段階法
 
 
-��������A��̎��̍��ӂ� LU �������Ă݂܂��iPerot 1993�j�B
+ここから、上の式の左辺を LU 分解してみます（Perot 1993）。
 
 
 
@@ -180,12 +180,12 @@ CFD �Ɋւ����ɂƂ��Ă͊�{�I�Ȃ��Ƃ��Ǝv���܂����A�����̌o���� 2014�N������Ŏ
 
 
 
-��₱�����Ȃ��Ă����H
+ややこしくなってきた？
 
 
 
 
-����ɂ����ŁA
+さらにここで、
 
 
 
@@ -193,7 +193,7 @@ CFD �Ɋւ����ɂƂ��Ă͊�{�I�Ȃ��Ƃ��Ǝv���܂����A�����̌o���� 2014�N������Ŏ
 
 
 
-�ƁA���ӂ̉E���Q�� <img src="https://latex.codecogs.com/gif.latex?\inline&space;{{u^*&space;}}"/> (���̑��x��) �ŕ\������ƁA
+と、左辺の右側２つを <img src="https://latex.codecogs.com/gif.latex?\inline&space;{{u^*&space;}}"/> (仮の速度場) で表現すると、
 
 
 
@@ -201,17 +201,17 @@ CFD �Ɋւ����ɂƂ��Ă͊�{�I�Ȃ��Ƃ��Ǝv���܂����A�����̌o���� 2014�N������Ŏ
 
 
 
-�ƂȂ�܂��B
+となります。
 
 
 
 
-�����\�������  <img src="https://latex.codecogs.com/gif.latex?\inline&space;{{u^*&space;}}"/> (���̑��x��) ���̂� <img src="https://latex.codecogs.com/gif.latex?\inline&space;p^{\prime&space;}"/> ����؂藣����܂��B2�i�K�ɂ킯�� <img src="https://latex.codecogs.com/gif.latex?\inline&space;{u}^n&space;\to&space;{u}^*&space;\to&space;{u}^{n+1}"/> �Ƌ��߂�̂����R�Ɍ����Ă��܂��ˁI
+こう表現すると  <img src="https://latex.codecogs.com/gif.latex?\inline&space;{{u^*&space;}}"/> (仮の速度場) 自体は <img src="https://latex.codecogs.com/gif.latex?\inline&space;p^{\prime&space;}"/> から切り離されます。2段階にわけて <img src="https://latex.codecogs.com/gif.latex?\inline&space;{u}^n&space;\to&space;{u}^*&space;\to&space;{u}^{n+1}"/> と求めるのも自然に見えてきますね！
 
 
 
 
-���ۂ̏������ɕ��ׂ�ƁE�E
+実際の処理順に並べると・・
 
 
 
@@ -219,21 +219,21 @@ CFD �Ɋւ����ɂƂ��Ă͊�{�I�Ȃ��Ƃ��Ǝv���܂����A�����̌o���� 2014�N������Ŏ
 
 
 
-�ƂȂ�킯�ł��B��̍s�񎮂�W�J���������B����ŁA�����i�K�@�iFractional Step Method) �̏o���オ��B
+となるわけです。上の行列式を展開しただけ。これで、部分段階法（Fractional Step Method) の出来上がり。
 
 
   
-## �]�k�P�F���͂Ɋւ��Ẵ|���\��������
+## 余談１：圧力に関してのポワソン方程式
 
 
-�悭�����u���͂Ɋւ��Ẵ|���\���������v�Ƃ����̂͂Q�ڂ̎��̂��Ƃł��B�����A�|���\���������ɏo�Ă���Q�K�����̗��U�I�y���[�^�͂Ȃ�ł������킯�ł͂Ȃ��A<img src="https://latex.codecogs.com/gif.latex?\inline&space;{{DG}}"/>�ł���K�v������_�͑�Ϗd�v�B�Q�����x�ł���΁i���ǈ�v���邱�Ƃ������̂Łj���ɂȂ邱�Ƃ͂Ȃ���ł����A�S�����x�̏ꍇ�͂����ɐ��������Ȃ��ƘA�����i���ʕۑ��j����������܂���B
+よく聞く「圧力に関してのポワソン方程式」というのは２つ目の式のことです。ただ、ポワソン方程式に出てくる２階微分の離散オペレータはなんでもいいわけではなく、<img src="https://latex.codecogs.com/gif.latex?\inline&space;{{DG}}"/>である必要がある点は大変重要。２次精度であれば（結局一致することが多いので）問題になることはないんですが、４次精度の場合はここに整合性がないと連続性（質量保存）が満たされません。
 
 
   
-## �]�k�Q�FSMAC �@
+## 余談２：SMAC 法
 
 
-���� LU �����Ƃ����ϓ_����́A�����i�K�@�Ɉ��͌��z���������� SMAC �@�Ƃ����̂͂Ȃ�ƂȂ��s���Ƃ��Ȃ��ł��ˁB���Ȃ݂Ɉȉ��̃X�e�b�v�ɂȂ�܂��B
+この LU 分解という観点からは、部分段階法に圧力勾配項を加えた SMAC 法というのはなんとなくピンとこないですね。ちなみに以下のステップになります。
 
 
 
@@ -241,24 +241,24 @@ CFD �Ɋւ����ɂƂ��Ă͊�{�I�Ȃ��Ƃ��Ǝv���܂����A�����̌o���� 2014�N������Ŏ
 
 
 
-�����A���͌��z�������邾���B
+実質、圧力勾配を加えるだけ。
 
 
   
-# ��Ԕ����ɂ���
+# 空間微分について
 
 
-���āA���͋�Ԕ����ɂ��Ăł��B
-
-
-
-
-�������̑��x <img src="https://latex.codecogs.com/gif.latex?\inline&space;u"/> �͌v�Z�Z���̍��E�ӂ̒����A�c�����̑��x <img src="https://latex.codecogs.com/gif.latex?\inline&space;v"/> �͌v�Z�O���b�h�̏㉺�ӂ̒����A�����Ĉ��� <img src="https://latex.codecogs.com/gif.latex?\inline&space;p"/> �̓Z���̒����ɒ�`����� Staggered Grid �V�X�e�����g�p���܂��B
+さて、次は空間微分についてです。
 
 
 
 
-���ꂼ��̒�`�ʒu�� index �͈̔͂��������̂��ȉ��̐}�ł��B
+横方向の速度 <img src="https://latex.codecogs.com/gif.latex?\inline&space;u"/> は計算セルの左右辺の中央、縦方向の速度 <img src="https://latex.codecogs.com/gif.latex?\inline&space;v"/> は計算グリッドの上下辺の中央、そして圧力 <img src="https://latex.codecogs.com/gif.latex?\inline&space;p"/> はセルの中央に定義される Staggered Grid システムを使用します。
+
+
+
+
+それぞれの定義位置と index の範囲を示したのが以下の図です。
 
 
 
@@ -268,7 +268,7 @@ CFD �Ɋւ����ɂƂ��Ă͊�{�I�Ȃ��Ƃ��Ǝv���܂����A�����̌o���� 2014�N������Ŏ
 
 
 
-�����������v�Z�̈�̋��E��\���A�l���Ɠ����̗l�q��\�����Ă݂܂����B��̐}�ō����͋��E������\���A�I�����W���͋��E�����ƂP�����̑��x�Ō��肷�鉼�z���x�Ƃ��܂��B
+黒い太線が計算領域の境界を表し、四隅と内部の様子を表現してみました。上の図で黒矢印は境界条件を表し、オレンジ矢印は境界条件と１つ内側の速度で決定する仮想速度とします。
 
 
 
@@ -276,13 +276,13 @@ CFD �Ɋւ����ɂƂ��Ă͊�{�I�Ȃ��Ƃ��Ǝv���܂����A�����̌o���� 2014�N������Ŏ
 
 
 
-�Ƃ����l�ɁA���E���u�ĂĂP�����̑��x�Ƃ̓��}�l�����E�����Ɉ�v����悤�Ɍ��肵�܂��B���ۂɏ�Œ�`�����x�z�������ŉ����̂͐��F���ŕ\������Ă��鋫�E�����̑��x�E���݂͂̂ł���_�ɂ����ӂ��������B
+という様に、境界を隔てて１つ内側の速度との内挿値が境界条件に一致するように決定します。実際に上で定義した支配方程式で解くのは水色矢印で表示されている境界内側の速度・圧力のみである点にご注意ください。
 
 
-## �z��T�C�Y�ƃC���f�b�N�X�ɂ���
+## 配列サイズとインデックスについて
 
 
-�R�[�h���ȑf�����邽�߂ɁA���E�����Ɨ̈�����𓯂��ϐ��Ɏ������܂��B���� index �i�v�f�ʒu�j�Ɣz��T�C�Y�������ϑ��I�B
+コードを簡素化するために、境界条件と領域内部を同じ変数に持たせます。結果 index （要素位置）と配列サイズが少し変則的。
 
 
 
@@ -292,7 +292,7 @@ CFD �Ɋւ����ɂƂ��Ă͊�{�I�Ȃ��Ƃ��Ǝv���܂����A�����̌o���� 2014�N������Ŏ
 
 
 
-�Ƃ����z��T�C�Y�BMATLAB ���ƗႦ�Η̈�����i���ۂɌv�Z���镔���j��
+という配列サイズ。MATLAB だと例えば領域内部（実際に計算する部分）は
 
 
 ```matlab
@@ -302,14 +302,14 @@ p(1:end, 1:end)
 ```
 
 
-�Ȃ� `end` ���g���Ƒ����Q�Ƃ��₷���ł��B
+など `end` を使うと多少参照しやすいです。
 
 
   
-## ���x���z�i���U�j
+## 速度勾配（発散）
 
 
-����̓V���v���ɂQ�����x�̒��������F<img src="https://latex.codecogs.com/gif.latex?\inline&space;u/v"/> �ɑ΂���
+これはシンプルに２次精度の中央差分：<img src="https://latex.codecogs.com/gif.latex?\inline&space;u/v"/> に対して
 
 
 
@@ -317,19 +317,19 @@ p(1:end, 1:end)
 
 
 
-�ł���A�Z�������� <img src="https://latex.codecogs.com/gif.latex?\inline&space;p"/> �Ɠ����ʒu�ɒ�`����܂��B
+であり、セル中央の <img src="https://latex.codecogs.com/gif.latex?\inline&space;p"/> と同じ位置に定義されます。
 
 
 
 
-**�d�v�|�C���g**�FStaggered Grid �ɂ����Ă�<img src="https://latex.codecogs.com/gif.latex?\inline&space;u/v"/> �̋��E�����Ɋւ�镔���� <img src="https://latex.codecogs.com/gif.latex?\inline&space;bc"/> �ƕʓr��舵�����ƂŁA���E�����͕K�v�Ȃ��悤��<img src="https://latex.codecogs.com/gif.latex?\inline&space;{D}"/> �I�y���[�^���`���܂��B�����ɂ����� <img src="https://latex.codecogs.com/gif.latex?\inline&space;u/v"/> �̋��E�ɐ����Ȑ����i�����o�����j�Ɋւ�镔���� <img src="https://latex.codecogs.com/gif.latex?\inline&space;bc"/> �ɓ���܂��̂ŁA����̂悤�ɗ����o�� 0 �ł���� <img src="https://latex.codecogs.com/gif.latex?\inline&space;bc=0"/>�B
+**重要ポイント**：Staggered Grid においては<img src="https://latex.codecogs.com/gif.latex?\inline&space;u/v"/> の境界条件に関わる部分は <img src="https://latex.codecogs.com/gif.latex?\inline&space;bc"/> と別途取り扱うことで、境界条件は必要ないように<img src="https://latex.codecogs.com/gif.latex?\inline&space;{D}"/> オペレータを定義します。厳密にいうと <img src="https://latex.codecogs.com/gif.latex?\inline&space;u/v"/> の境界に垂直な成分（流入出成分）に関わる部分が <img src="https://latex.codecogs.com/gif.latex?\inline&space;bc"/> に入りますので、今回のように流入出が 0 であれば <img src="https://latex.codecogs.com/gif.latex?\inline&space;bc=0"/>。
 
 
   
-## ���͌��z��
+## 圧力勾配項
 
 
-�������V���v���ɂQ�����x�̒��������F<img src="https://latex.codecogs.com/gif.latex?\inline&space;p"/> �ɑ΂���
+同じくシンプルに２次精度の中央差分：<img src="https://latex.codecogs.com/gif.latex?\inline&space;p"/> に対して
 
 
 
@@ -337,19 +337,19 @@ p(1:end, 1:end)
 
 
 
-�ł���A���ꂼ��v�Z�̈���� <img src="https://latex.codecogs.com/gif.latex?\inline&space;u/v"/> �Ɠ����ʒu�ɒ�`����܂��B
+であり、それぞれ計算領域内の <img src="https://latex.codecogs.com/gif.latex?\inline&space;u/v"/> と同じ位置に定義されます。
 
 
 
 
-**�d�v�|�C���g**�FStaggered Grid �ł̂Q�����x�̒��������ɂ����� <img src="https://latex.codecogs.com/gif.latex?\inline&space;{G}"/> �I�y���[�^�ɋ��E�����͕K�v����܂���B�̈���� <img src="https://latex.codecogs.com/gif.latex?\inline&space;p"/> �����ŕK�v�Ȍ��z�͋��܂�܂��B ���ʂƂ��Ĉ��͂̃|���\�������� <img src="https://latex.codecogs.com/gif.latex?\inline&space;{{DG}}p^{\prime&space;}&space;={{RHS}}"/> �������ɂ������āA���͂̋��E�����͌�����s�v�Ƃ����̂� Perot (1993) �̎咣�B
+**重要ポイント**：Staggered Grid での２次精度の中央差分において <img src="https://latex.codecogs.com/gif.latex?\inline&space;{G}"/> オペレータに境界条件は必要ありません。領域内の <img src="https://latex.codecogs.com/gif.latex?\inline&space;p"/> だけで必要な勾配は求まります。 結果として圧力のポワソン方程式 <img src="https://latex.codecogs.com/gif.latex?\inline&space;{{DG}}p^{\prime&space;}&space;={{RHS}}"/> を解くにあたって、圧力の境界条件は原理上不要というのが Perot (1993) の主張。
 
 
   
-## �g�U��
+## 拡散項
 
 
-������Q�����x�̒����Q�K�����F<img src="https://latex.codecogs.com/gif.latex?\inline&space;u/v"/> ���ꂼ��ɑ΂���
+これも２次精度の中央２階差分：<img src="https://latex.codecogs.com/gif.latex?\inline&space;u/v"/> それぞれに対して
 
 
 
@@ -360,14 +360,14 @@ p(1:end, 1:end)
 
 
 
-�ł���A���ꂼ��v�Z�̈���� <img src="https://latex.codecogs.com/gif.latex?\inline&space;u/v"/> �Ɠ����ʒu�ɒ�`����܂��B�����ł͋��E�������܂߂��I�y���[�^�Ƃ��Ă����܂��B
+であり、それぞれ計算領域内の <img src="https://latex.codecogs.com/gif.latex?\inline&space;u/v"/> と同じ位置に定義されます。ここでは境界条件も含めたオペレータとしておきます。
 
 
   
-## �Η���
+## 対流項
 
 
-����́A���U�^����z�^�ȂǂƌĂ΂��\�����@������܂��B�����ŏ����Ɣ��U�^��
+これは、発散型や勾配型などと呼ばれる表現方法があります。数式で書くと発散型は
 
 
 
@@ -375,7 +375,7 @@ p(1:end, 1:end)
 
 
 
-���z�^��
+勾配型は
 
 
 
@@ -383,12 +383,12 @@ p(1:end, 1:end)
 
 
 
-�ł��B
+です。
 
 
 
 
-���ʕۑ��̎��i�A���̎��j�����藧���Ă���Ζ{�������Ȏ��Ȃ�ł����A���l���̌��ʂ͈قȂ邱�Ƃ��w�E����Ă��܂��B�܂��A�Q�����x�̋�ԍ����ł���ΒP���ł����A�������x�ɂ��悤�Ƃ���Ɛ������i�݊����ƕۑ����j���m�ۂ���̂��Ȃ��ȑ�ρB�����ɋ����̂�����͐��� Morinishi et al. (1998) [8] �����Ă݂āB
+質量保存の式（連続の式）が成り立っていれば本来等価な式なんですが、数値解の結果は異なることが指摘されています。また、２次精度の空間差分であれば単純ですが、高次精度にしようとすると整合性（互換性と保存性）を確保するのがなかな大変。ここに興味のある方は是非 Morinishi et al. (1998) [8] を見てみて。
 
 
 
@@ -398,7 +398,7 @@ p(1:end, 1:end)
 
 
 
-����́A���U�^���g���܂��B�܂��}�̂悤�ɃZ���̒����i<img src="https://latex.codecogs.com/gif.latex?\inline&space;uce/vce"/>�j�ƃZ���̊p�i<img src="https://latex.codecogs.com/gif.latex?\inline&space;uco/vco"/>�j�ł̑��x����}�ŋ��߁A���ꂼ��𗘗p����
+今回は、発散型を使います。まず図のようにセルの中央（<img src="https://latex.codecogs.com/gif.latex?\inline&space;uce/vce"/>）とセルの角（<img src="https://latex.codecogs.com/gif.latex?\inline&space;uco/vco"/>）での速度を内挿で求め、それぞれを利用して
 
 
 
@@ -409,13 +409,13 @@ p(1:end, 1:end)
 
 
 
-�ƂȂ��܂��B������܂����ꂼ��v�Z�̈���� <img src="https://latex.codecogs.com/gif.latex?\inline&space;u/v"/> �Ɠ����ʒu�ɒ�`����܂��B
+となします。これもまたそれぞれ計算領域内の <img src="https://latex.codecogs.com/gif.latex?\inline&space;u/v"/> と同じ位置に定義されます。
 
 
-# MATLAB �ɂ�����
+# MATLAB による実装
 
 
-�ׂ������b�͈ȏ�I�ł͂��������R�[�h�ɂ��Ă݂܂��B
+細かいお話は以上！ではさっそくコードにしてみます。
 
 
 ```matlab
@@ -423,27 +423,27 @@ clear
 close all
 addpath('../functions/');
 ```
-## ��͗̈�̐ݒ�
+## 解析領域の設定
 
 
-�J��Ԃ��ɂȂ�܂�������� 1 �����x�̗z��@�B���ԃX�e�b�v�T�C�Y dt ��傫��������AReynolds ������������������Ɗg�U���������Ōv�Z�����U�����Ⴄ�̂ŗv���ӁB
+繰り返しになりますが今回は 1 次精度の陽解法。時間ステップサイズ dt を大きくしたり、Reynolds 数を小さくしすぎると拡散項が原因で計算が発散しちゃうので要注意。
 
 
 ```matlab
 Re = 500; % Reynolds number
-nt = 50; % max time steps (�������ŏ�������)
+nt = 50; % max time steps (お試しで少しだけ)
 Lx = 1; Ly = 1; % domain size
 Nx = 80; Ny = 80; % Number of grids
 dt = 0.01; % time step;
 ```
 
 
-�ݒ荀�ڂ͂����܂ŁB
+設定項目はここまで。
 
 
 
 
-�O���b�h�T�C�Y��O���b�h�̒����ixce/yce�j�ƃR�[�i�[�ixco/yco�j�ɓ����镔���̍��W�ʒu���v�Z���܂��B
+グリッドサイズやグリッドの中央（xce/yce）とコーナー（xco/yco）に当たる部分の座標位置を計算します。
 
 
 ```matlab
@@ -459,7 +459,7 @@ yco = (0:Ny)*dy;
 ```
 
 
-���x u/v �ƈ��� p �̔z������O�m��
+速度 u/v と圧力 p の配列を事前確保
 
 
 ```matlab
@@ -469,10 +469,10 @@ u = zeros(Nx+1,Ny+2); % velocity in x direction (u)
 v = zeros(Nx+2,Ny+1); % velocity in y direction (v)
 p = zeros(Nx,Ny); % pressure (lagurange multiplier)
 ```
-## ������ԃv���b�g
+## 初期状態プロット
 
 
-�Z�������ł̑��x
+セル中央での速度
 
 
 ```matlab
@@ -481,15 +481,15 @@ vce = (v(2:end-1,1:end-1)+v(2:end-1,2:end))/2; % v at cell center
 ```
 
 
-���x�̑傫���i�����j�𓙍����}�Ńv���b�g���܂��B
+速度の大きさ（速さ）を等高線図でプロットします。
 
 
 ```matlab
-[Xce,Yce] = meshgrid(xce,yce); % cell center�̍��W�O���b�h
+[Xce,Yce] = meshgrid(xce,yce); % cell centerの座標グリッド
 [~,h_abs] = contourf(Xce',Yce',sqrt(uce.^2+vce.^2));
 ```
 ```
-�x��: �������}�� ZData ���萔�̏ꍇ�̓����_�����O����܂���
+警告: 等高線図は ZData が定数の場合はレンダリングされません
 ```
 ```matlab
 xlim([0 Lx]); ylim([0 Ly]);
@@ -499,32 +499,32 @@ xlim([0 Lx]); ylim([0 Ly]);
 
 
 
-�܁A�A���R�Ȃ��珉����Ԃł͉��̓���������܂���B
+ま、、当然ながら初期状態では何の動きもありません。
 
 
-## ���Ԑϕ�
+## 時間積分
 
 
-�������烁�C�����[�v
+ここからメインループ
 
 
 ```matlab
 for ii = 1:nt
 ```
-### ���z���x�����i���E����͂ݏo�������j
+### 仮想速度部分（境界からはみ出た部分）
 
 
-���E�����𗘗p���Čv�Z���܂��B
+境界条件を利用して計算します。
 
 
 ```matlab
-    bctop = 1; % ���E�㕔�̑��x u
+    bctop = 1; % 境界上部の速度 u
     u(:,1) = -u(:,2); v(:,1) = 0;             %bottom
     u(:,end) = 2*bctop-u(:,end-1);  v(:,end) = 0;  %top
     u(1,:) = 0;    v(1,:) = -v(2,:);             %left
     u(end,:) = 0;  v(end,:) = -v(end-1,:);    %right
 ```
-###  �g�U��(u) 
+###  拡散項(u) 
 
 <img src="https://latex.codecogs.com/gif.latex?{L}u(i,j)=\frac{u(i-1,j)-2u(i,j)+u(i+1,j)}{\Delta&space;x^2&space;}+\frac{u(i,j-1)-2u(i,j)+u(i,j+1)}{\Delta&space;y^2&space;}"/>
 
@@ -532,7 +532,7 @@ for ii = 1:nt
     Lux = (u(1:end-2,2:end-1)-2*u(2:end-1,2:end-1)+u(3:end,2:end-1))/dx^2; % nx-1 * ny
     Luy = (u(2:end-1,1:end-2)-2*u(2:end-1,2:end-1)+u(2:end-1,3:end))/dy^2; % nx-1 * ny
 ```
-### �g�U��(v)
+### 拡散項(v)
 
 <img src="https://latex.codecogs.com/gif.latex?{L}v(i,j)=\frac{v(i-1,j)-2v(i,j)+v(i+1,j)}{\Delta&space;x^2&space;}+\frac{v(i,j-1)-2v(i,j)+v(i,j+1)}{\Delta&space;y^2&space;}"/>
 
@@ -540,7 +540,7 @@ for ii = 1:nt
     Lvx = (v(1:end-2,2:end-1)-2*v(2:end-1,2:end-1)+v(3:end,2:end-1))/dx^2; % nx * ny-1
     Lvy = (v(2:end-1,1:end-2)-2*v(2:end-1,2:end-1)+v(2:end-1,3:end))/dy^2; % nx * ny-1
 ```
-### �Η����̌v�Z
+### 対流項の計算
 
 <img src="https://latex.codecogs.com/gif.latex?{N}u(i,j)=\frac{uce(i,j)^2&space;-uce(i-1,j)^2&space;}{\Delta&space;x}+\frac{uco(i,j+1)vco(i,j+1)-uco(i,j)vco(i,j)}{\Delta&space;y}"/>
 
@@ -567,10 +567,10 @@ for ii = 1:nt
     Nv = Nv + (uvco(2:end,2:end-1) - uvco(1:end-1,2:end-1))/dx;
     
 ```
-###  ���̑��x��Z�o
+###  仮の速度場算出
 
 
-�ꎟ���x�̃I�C���[�ϕ�
+一次精度のオイラー積分
 
 
 ```matlab
@@ -578,10 +578,10 @@ for ii = 1:nt
     u(2:end-1,2:end-1) = u(2:end-1,2:end-1) + dt*(-Nu + (Lux+Luy)/Re);
     v(2:end-1,2:end-1) = v(2:end-1,2:end-1) + dt*(-Nv + (Lvx+Lvy)/Re);
 ```
-### �V�������x��
+### 新しい速度場
 
 
-���͂̎��i�|���\���������j�������đ��x������ʕۑ��𖞂�����Ɏʑ��B�|���\���������̉�@�ɂ��Ắu[���U�R�T�C���ϊ��Ń|�A�\���������������ɉ���](https://qiita.com/eigs/items/cb607d647bc20c7db809)�v�ŏЉ�Ă���̂ŎQ�Ƃ��Ă��������B
+圧力の式（ポワソン方程式）を解いて速度場を質量保存を満たす場に写像。ポワソン方程式の解法については「[離散コサイン変換でポアソン方程式を高速に解く](https://qiita.com/eigs/items/cb607d647bc20c7db809)」で紹介しているので参照してください。
 
 
 ```matlab
@@ -590,25 +590,25 @@ for ii = 1:nt
     b = ((u(2:end,2:end-1)-u(1:end-1,2:end-1))/dx ...
         + (v(2:end-1,2:end)-v(2:end-1,1:end-1))/dy);
     
-    % Solve for p�i�R�T�C���ϊ����g���܂��F�����j
+    % Solve for p（コサイン変換を使います：高速）
     p = solvePoissonEquation_2dDCT(b,Nx,Ny,dx,dy);
     
-    % ���ږ@�ŉ����ꍇ���Q�l�܂�
+    % 直接法で解く場合も参考まで
     % p = solvePoissonEquation_direct(b,Nx,Ny,dx,dy);
     
-    % ���͌��z�����̑��x�ꂩ������āA�V�������x��
+    % 圧力勾配を仮の速度場から引いて、新しい速度場
     u(2:end-1,2:end-1) = u(2:end-1,2:end-1) -  (p(2:end,:)-p(1:end-1,:))/dx;
     v(2:end-1,2:end-1) = v(2:end-1,2:end-1) -  (p(:,2:end)-p(:,1:end-1))/dy;
 ```
 
 
-�V�������x��͘A���̎��𖞂����܂��B���̏����ŋ��E�l�͕ω����Ȃ��_�ɂ����ځB�ނ��닫�E�l���O��ɁA���̑��x���A���̎��𖞂����悤�ɏ��������Ɨ��������ق������������B
+新しい速度場は連続の式を満たします。この処理で境界値は変化しない点にも注目。むしろ境界値が前提に、仮の速度場を連続の式を満たすように処理したと理解したほうがいいかも。
 
 
-### �����A�b�v�f�[�g
+### 可視化アップデート
 
 
-�Z�������ł̑��x�����}�ŋ��߂ĕ\���I
+セル中央での速度場を内挿で求めて表示！
 
 
 ```matlab
@@ -626,12 +626,12 @@ end
 
 
 
-���܂��v�Z�ł��Ă����ł��ˁI
+うまく計算できてそうですね！
 
 
 
 
-�A���̎��𖞂��������x��ɂȂ��Ă��邩�ǂ����A�ꉞ�m�F���Ă����܂��B
+連続の式を満たした速度場になっているかどうか、一応確認しておきます。
 
 
 ```matlab
@@ -644,23 +644,23 @@ disp(norm(b))
 ```
 
 
-���������_�덷���x�Ɏ��܂��Ă��܂��ˁB
+浮動小数点誤差程度に収まっていますね。
 
 
-# �����̃A�j���[�V�����\��
+# 流れ場のアニメーション表示
 
 
-CFD �� Colorful Fluid Dynamics �̗��Ƃ������邾�������āA���������l���̂̑�햡�ł���ˁB�������}��������Ȃ��đ��x����ŕ\�������� GIF �o�͂��܂��B��̌v�Z������ `updateVelocityField_Euler.m` �Ƃ��Ċ֐������Ă����܂��B
-
-
-
-
-**����**�FR2019b �ł� `recordGIF = true` �ݒ�ňȉ������s����ƃG���[���������܂��BGIF���쐬����ꍇ�ɂ� `script_AnimateVelocityField.m` �i�������e�ł��j�����s���Ă��������B
+CFD は Colorful Fluid Dynamics の略とも言われるだけあって、可視化が数値流体の醍醐味ですよね。等高線図だけじゃなくて速度を矢印で表示させて GIF 出力します。上の計算処理は `updateVelocityField_Euler_bctop.m` として関数化しておきます。
 
 
 
 
-���ݒ�
+**注意**：R2019b では `recordGIF = true` 設定で以下を実行するとエラーが発生します。GIFを作成する場合には `script_AnimateVelocityField.m` （同じ内容です）を実行してください。
+
+
+
+
+環境設定
 
 
 ```matlab
@@ -681,7 +681,7 @@ yco = (0:Ny)*dy;
 ```
 
 
-���x��̏�����
+速度場の初期化
 
 
 ```matlab
@@ -691,41 +691,41 @@ v = zeros(Nx+2,Ny+1); % velocity in y direction (v)
 uce = (u(1:end-1,2:end-1)+u(2:end,2:end-1))/2; % u at cell center
 vce = (v(2:end-1,1:end-1)+v(2:end-1,2:end))/2; % v at cell center
 ```
-## �����ݒ�
+## 可視化設定
 
 
-���� `quiver` �֐��ŕ`�����ł����A��󂪑����ƌ��Â炢�̂� `visRate` �Ԋu�ŊԈ����ĕ\�������܂��B�܂����X�e�b�v��������� GIF ���d���Ȃ�̂ŁA`recordRate` ���ɕ\���X�V���� GIF �ɏ������ނ悤�ɂ��܂��B
+矢印は `quiver` 関数で描けるんですが、矢印が多いと見づらいので `visRate` 間隔で間引いて表示させます。また毎ステップ可視化すると GIF が重くなるので、`recordRate` 毎に表示更新して GIF に書き込むようにします。
 
 
 ```matlab
 visRate = 4; % downsample rate of the data for quiver
-recordGIF = false; % GIF �쐬����ꍇ�� true �ɕύX
+recordGIF = false; % GIF 作成する場合は true に変更
 recordRate = 20;
 filename = 'animation_sample.gif'; % Specify the output file name
 ```
 
 
-�������}
+等高線図
 
 
 ```matlab
 figure
-[Xce,Yce] = meshgrid(xce,yce); % cell center�̍��W�O���b�h
-[~,h_abs] = contourf(Xce',Yce',sqrt(uce.^2+vce.^2)); % �������}
+[Xce,Yce] = meshgrid(xce,yce); % cell centerの座標グリッド
+[~,h_abs] = contourf(Xce',Yce',sqrt(uce.^2+vce.^2)); % 等高線図
 ```
 ```
-�x��: �������}�� ZData ���萔�̏ꍇ�̓����_�����O����܂���
+警告: 等高線図は ZData が定数の場合はレンダリングされません
 ```
 ```matlab
 hold on
 ```
 
 
-���x��i���j
+速度場（矢印）
 
 
 ```matlab
-% �\���p�Ƀf�[�^���Ԉ����܂��id = downsampled�j
+% 表示用にデータを間引きます（d = downsampled）
 xced = xce(1:visRate:end);
 yced = yce(1:visRate:end);
 [Xced,Yced] = meshgrid(xced, yced);
@@ -739,7 +739,7 @@ xlim([0 Lx]); ylim([0 Ly]);
 ```
 
 
-���܂��ŗ̈�㕔�̑��x�i���E�����j�����ŕ\�����Ă����܂��B
+おまけで領域上部の速度（境界条件）も矢印で表示しておきます。
 
 
 ```matlab
@@ -747,7 +747,7 @@ harrow = annotation('textarrow',[0.3 0.7],[0.96 0.96],"LineWidth",2);
 ```
 
 
-�]�v�Ȃ��̂͏����Ă����܂��傤�B
+余計なものは消しておきましょう。
 
 
 ```matlab
@@ -755,27 +755,27 @@ haxes = gca;
 haxes.XTick = [];
 haxes.YTick = [];
 ```
-## �V�~�����[�V�����J�n
+## シミュレーション開始
 
 
-�����ł͏����������o�����߂ɁA 2000 �X�e�b�v�񂷓r���ŗ̈�㕔�̑��x�𔽓]�����Ă��܂��B
+ここでは少し動きを出すために、 2000 ステップ回す途中で領域上部の速度を反転させています。
 
 
 ```matlab
 initialFrame = true;
 
-for ii = 1:2000
-    bctop = 1; % ���E�㕔�̑��x u
+for ii = 1:nt
+    bctop = 1; % 境界上部の速度 u
     
     if ii > 1000
         bctop = -1;
-        harrow.X = [0.7, 0.3]; % ���̌��������]
+        harrow.X = [0.7, 0.3]; % 矢印の向きも反転
     end
     
-    % ���x��X�V�i�R�T�C���ϊ��g�p�j
-    [u,v] = updateVelocityField_Euler(u,v,Nx,Ny,dx,dy,Re,dt,bctop,'dct');
+    % 速度場更新（コサイン変換使用）
+    [u,v] = updateVelocityField_Euler_bctop(u,v,Nx,Ny,dx,dy,Re,dt,bctop,'dct');
     
-    % �`��� recordRate ���Ɏ��{
+    % 描画は recordRate 毎に実施
     if mod(ii,recordRate) == 0
         % get velocity at the cell center (for visualization)
         uce = (u(1:end-1,2:end-1)+u(2:end,2:end-1))/2; % u at cell center
@@ -788,14 +788,14 @@ for ii = 1:2000
         drawnow
         
         if recordGIF
-            frame = getframe(gcf); %#ok<UNRCH> % Figure ��ʂ����[�r�[�t���[���i�\���́j�Ƃ��ăL���v�`��
-            tmp = frame2im(frame); % �摜�ɕύX
-            [A,map] = rgb2ind(tmp,256); % RGB -> �C���f�b�N�X�摜��
+            frame = getframe(gcf); %#ok<UNRCH> % Figure 画面をムービーフレーム（構造体）としてキャプチャ
+            tmp = frame2im(frame); % 画像に変更
+            [A,map] = rgb2ind(tmp,256); % RGB -> インデックス画像に
             if initialFrame
                 imwrite(A,map,filename,'gif','LoopCount',Inf,'DelayTime',0.1);
                 initialFrame = false;
             else
-                imwrite(A,map,filename,'gif','WriteMode','append','DelayTime',0.1);% �摜���A�y���h
+                imwrite(A,map,filename,'gif','WriteMode','append','DelayTime',0.1);% 画像をアペンド
             end
         end
         
@@ -806,20 +806,20 @@ end
 ![figure_2.png](vanilaCavityFlow_JP_images/figure_2.png)
 
   
-# �܂Ƃ�
+# まとめ
 
 
-�܂����x�̌��؂Ȃǂ��Ă��܂��񂪁ANavier-Stokes ���������������C�����܂��B
-
-
-
-
-�g�U���̎�舵�����z��@�ł��邱�Ƃ�����AReynolds ��������������ƌ����Ɍv�Z�����U���܂��B�ǂ���Ύ����Ă݂Ă��������B����͂��̕ӂւ̑΍�Ƃ��Ċg�U���̉A��@�A�����Ď��Ԑϕ��̍������x�����������Ă݂܂��B����A�{���ɐ����������Ă��邩�������ƌ��؂��܂��傤�B
+まだ精度の検証などしていませんが、Navier-Stokes 方程式が解けた気がします。
 
 
 
 
-�u�񈳏k�� Navier-Stokes �������̐��l��@�Q�F�g�U���̉A��@�{���Ԑϕ��̍������v���y���݂ȁA��̍���������������Ⴂ�܂�����A�����˂ŉ������Ă������� :)
+拡散項の取り扱いが陽解法であることもあり、Reynolds 数を小さくすると見事に計算が発散します。良ければ試してみてください。次回はその辺への対策として拡散項の陰解法、そして時間積分の高次精度化を実装してみます。次回、本当に正しく解けているかもちゃんと検証しましょう。
+
+
+
+
+「非圧縮性 Navier-Stokes 方程式の数値解法２：拡散項の陰解法＋時間積分の高次化」が楽しみな、趣味の合う方がいらっしゃいましたら、いいねで応援してください :)
 
 
 # References

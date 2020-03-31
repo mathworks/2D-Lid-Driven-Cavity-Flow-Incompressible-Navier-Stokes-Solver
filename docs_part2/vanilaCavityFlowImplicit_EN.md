@@ -368,7 +368,7 @@ ans = 5x5
 maskU
 ```
 ```
-maskU = 6x7 logical array    
+maskU = 6x7 の logical 配列    
    0   0   0   0   0   0   0
    0   1   1   1   1   1   0
    0   1   1   1   1   1   0
@@ -447,7 +447,7 @@ A4u = eye(size(L4u),'like',L4u)-dt/(2*Re)*L4u;
 xu2 = cgs(A4u,r(:));
 ```
 ```
-cgs converged at iteration 2 to a solution with relative residual 8e-11.
+cgs は、相対残差 6.5e-11 をもつ解に 反復 2 で収束しました。
 ```
 
 
@@ -464,7 +464,7 @@ The use of preconditioner helps convergence, thus the computational time, but st
 xu4 = cgs(@(x) operatorAu_CNAB(x,dt,Re,nx,ny,dx,dy),r(:));
 ```
 ```
-cgs converged at iteration 2 to a solution with relative residual 8e-11.
+cgs は、相対残差 6.5e-11 をもつ解に 反復 2 で収束しました。
 ```
 
 
@@ -543,7 +543,7 @@ figure
 [~,h_abs] = contourf(Xce',Yce',sqrt(uce.^2+vce.^2)); % contour
 ```
 ```
-Warning: Contour not rendered for constant ZData
+警告: 等高線図は ZData が定数の場合はレンダリングされません
 ```
 ```matlab
 hold on
@@ -602,8 +602,8 @@ for ii = 1:nt
     end
     
     % Update the velocity field (uses dct)
-    [u,v] = updateVelocityField_CNAB(u,v,Nx,Ny,dx,dy,Re,dt,bctop,'dct');
-%     [u,v] = updateVelocityField_RK3(u,v,Nx,Ny,dx,dy,Re,dt,bctop,'dct');
+    [u,v] = updateVelocityField_CNAB_bctop(u,v,Nx,Ny,dx,dy,Re,dt,bctop,'dct');
+%     [u,v] = updateVelocityField_RK3_bctop(u,v,Nx,Ny,dx,dy,Re,dt,bctop,'dct');
     
     % Update the plot at every recordRate steps
     if mod(ii,recordRate) == 0
@@ -647,7 +647,7 @@ In this document, we have discussed the Crank-Nicolson and Adams-Bashfoth. It's 
 
 
 ```matlab
-    [u,v] = updateVelocityField_CNAB(u,v,Nx,Ny,dx,dy,Re,dt,bctop,'dct');
+    [u,v] = updateVelocityField_CNAB_bctop(u,v,Nx,Ny,dx,dy,Re,dt,bctop,'dct');
 ```
 
 
@@ -655,7 +655,7 @@ by
 
 
 ```matlab
-    [u,v] = updateVelocityField_RK3(u,v,Nx,Ny,dx,dy,Re,dt,bctop,'dct');
+    [u,v] = updateVelocityField_RK3_bctop(u,v,Nx,Ny,dx,dy,Re,dt,bctop,'dct');
 ```
 # Appendix: Runge-Kutta
 
