@@ -63,7 +63,7 @@ and we need 1/4 of the time step if we 1/2 the grid size. Also, the condition is
 
 
 
-For the convection equations, the Courant number (c is the velocityj
+For the convection equations, the Courant number (c is the velocityï¼‰
 
 
 
@@ -166,7 +166,7 @@ The difference from part 1 is the first equation, namely
 
 
 
-<img src="https://latex.codecogs.com/gif.latex?\begin{array}{rl}&space;{A}&space;&&space;={r}^n&space;\;\;{{where}}\;\;{A}={I}-\frac{dt}{2Re}{L}\\&space;{{r^n&space;}}&space;&&space;={u}^n&space;+dt\left\lbrace&space;-\frac{3}{2}{{{Nu}}}^n&space;+\frac{1}{2}{{{Nu}}}^{n-1}&space;+\frac{1}{2Re}\left(bc_L^{n+1}&space;+{{{Lu}}}^n&space;+bc_L^n&space;\right)\right\rbrace&space;&space;\end{array}"/>
+<img src="https://latex.codecogs.com/gif.latex?\begin{array}{rl}&space;{A}{u}^*&space;&space;&&space;={r}^n&space;\;\;{{where}}\;\;{A}={I}-\frac{dt}{2Re}{L}\\&space;{{r^n&space;}}&space;&&space;={u}^n&space;+dt\left\lbrace&space;-\frac{3}{2}{{{Nu}}}^n&space;+\frac{1}{2}{{{Nu}}}^{n-1}&space;+\frac{1}{2Re}\left(bc_L^{n+1}&space;+{{{Lu}}}^n&space;+bc_L^n&space;\right)\right\rbrace&space;&space;\end{array}"/>
 
 
 
@@ -202,7 +202,8 @@ Again, the sole difference from the previous Euler method is the following equat
 In the MATLAB code (see `updateVelocityField_CNAB.m` for details)
 
 
-```matlab
+
+```matlab:Code(Display)
     % Implicit treatment for xy direction
     b = u(2:end-1,2:end-1) + dt*(-3*Nu+Nu_old)/2 + dt/(2*Re)*(Lux+Luy+Lubc);
     xu = getIntermediateU_xyCNAB(u, b, dt, Re, Nx, Ny, dx, dy);
@@ -214,13 +215,16 @@ In the MATLAB code (see `updateVelocityField_CNAB.m` for details)
 ```
 
 
+
 Euler method (see `updateVelocityField_Euler.m` for details)
 
 
-```matlab
+
+```matlab:Code(Display)
     u(2:end-1,2:end-1) = u(2:end-1,2:end-1) - dt*Nu + dt/Re*(Lux+Luy);
     v(2:end-1,2:end-1) = v(2:end-1,2:end-1) - dt*Nv + dt/Re*(Lvx+Lvy);
 ```
+
 
 
 So simple!
@@ -327,7 +331,8 @@ The situation is oppisite for the <img src="https://latex.codecogs.com/gif.latex
 For small number of grid sizes, let `getL4u.m` calculate the <img src="https://latex.codecogs.com/gif.latex?\inline&space;{L}"/> for <img src="https://latex.codecogs.com/gif.latex?\inline&space;u"/>.
 
 
-```matlab
+
+```matlab:Code
 clear, close all
 addpath('../functions/')
 
@@ -340,6 +345,7 @@ L4u = getL4u(nx,ny,dx,dy,maskU);
 spy(L4u);
 ```
 
+
 ![figure_0.png](vanilaCavityFlowImplicit_EN_images/figure_0.png)
 
 
@@ -347,10 +353,13 @@ spy(L4u);
 Sparse it is. The actual values are..
 
 
-```matlab
+
+```matlab:Code
 full(L4u(1:nx,1:nx))
 ```
-```
+
+
+```text:Output
 ans = 5x5    
  -125.0000   25.0000         0         0   25.0000
    25.0000 -125.0000   25.0000         0         0
@@ -361,14 +370,18 @@ ans = 5x5
 ```
 
 
+
 **Sidenote**:  `maskU` is the logical array with true where <img src="https://latex.codecogs.com/gif.latex?\inline&space;u"/> is defined. `getL4u.m` calculates <img src="https://latex.codecogs.com/gif.latex?\inline&space;{L}"/> for more complex geometry as long as we defined `maskU` properly. For the current case, we have trues simply surrounded by falses (boundary)
 
 
-```matlab
+
+```matlab:Code
 maskU
 ```
-```
-maskU = 6x7 ‚Ì logical ”z—ñ    
+
+
+```text:Output
+maskU = 6x7 ã® logical é…åˆ—    
    0   0   0   0   0   0   0
    0   1   1   1   1   1   0
    0   1   1   1   1   1   0
@@ -377,6 +390,7 @@ maskU = 6x7 ‚Ì logical ”z—ñ
    0   0   0   0   0   0   0
 
 ```
+
 ## Solving the system of linear equations
 
 
@@ -388,11 +402,13 @@ MATLAB is indeed good at solving <img src="https://latex.codecogs.com/gif.latex?
 As observed above <img src="https://latex.codecogs.com/gif.latex?\inline&space;{A}"/> is a sparse matrix.
 
 
-```matlab
+
+```matlab:Code
 dt = 0.01; Re = 100; % a random test case
 A4u = eye(size(L4u),'like',L4u)-dt/(2*Re)*L4u; % A matrix for u 
 spy(A4u)
 ```
+
 
 ![figure_1.png](vanilaCavityFlowImplicit_EN_images/figure_1.png)
 
@@ -402,10 +418,12 @@ spy(A4u)
 MATLAB backslash works nicely for sparse matrix too. 
 
 
-```matlab
+
+```matlab:Code
 r = rand(nx-1,ny);
 xu = A4u\r(:);
 ```
+
 ### Method 2: Decompose + Directly
 
 
@@ -417,10 +435,12 @@ If we have fixed time-step size `dt` and Reynolds number `Re`, we can pre-decomp
 [decomposition Object](https://jp.mathworks.com/help/matlab/ref/decomposition.html) uses the decomposition type is automatically chosen based on the properties of the input matrix.
 
 
-```matlab
+
+```matlab:Code
 A4u = decomposition(A4u); 
 xu1 = A4u\r(:);
 ```
+
 
 
 For this method to work, we need to make use of the [persistent variable](https://jp.mathworks.com/help/matlab/ref/persistent.html).
@@ -442,13 +462,17 @@ MATLAB has [11 algorithms](https://jp.mathworks.com/help/matlab/math/systems-of-
 Here we choose `cgs` since it does not require symmetry nor positive definite.
 
 
-```matlab
+
+```matlab:Code
 A4u = eye(size(L4u),'like',L4u)-dt/(2*Re)*L4u;
 xu2 = cgs(A4u,r(:));
 ```
+
+
+```text:Output
+cgs ã¯ã€ç›¸å¯¾æ®‹å·® 6.5e-11 ã‚’ã‚‚ã¤è§£ã« åå¾© 2 ã§åæŸã—ã¾ã—ãŸã€‚
 ```
-cgs ‚ÍA‘Š‘Îc· 6.5e-11 ‚ğ‚à‚Â‰ğ‚É ”½•œ 2 ‚Åû‘©‚µ‚Ü‚µ‚½B
-```
+
 
 
 The use of preconditioner helps convergence, thus the computational time, but still, it requires the constant time step size dt and Reynolds number.
@@ -460,22 +484,28 @@ The use of preconditioner helps convergence, thus the computational time, but st
 **Sidenote**: The useful nature of the iterative method is that we do not have to explicitly prepare the matrices.
 
 
-```matlab
+
+```matlab:Code
 xu4 = cgs(@(x) operatorAu_CNAB(x,dt,Re,nx,ny,dx,dy),r(:));
 ```
+
+
+```text:Output
+cgs ã¯ã€ç›¸å¯¾æ®‹å·® 6.5e-11 ã‚’ã‚‚ã¤è§£ã« åå¾© 2 ã§åæŸã—ã¾ã—ãŸã€‚
 ```
-cgs ‚ÍA‘Š‘Îc· 6.5e-11 ‚ğ‚à‚Â‰ğ‚É ”½•œ 2 ‚Åû‘©‚µ‚Ü‚µ‚½B
-```
+
 
 
 You can specify the first input argument as a function handle such that the function returns <img src="https://latex.codecogs.com/gif.latex?\inline&space;{{Au^*&space;}}"/> (here `operatorAu_CNAB.m)`
 
 
-```matlab
+
+```matlab:Code(Display)
 Ax = x - dt/(2*Re)*(xbig(1:end-2,2:end-1)-2*xbig(2:end-1,2:end-1)+xbig(3:end,2:end-1))/dx^2; % nx-1 * ny
 Ax = Ax - dt/(2*Re)*(xbig(2:end-1,1:end-2)-2*xbig(2:end-1,2:end-1)+xbig(2:end-1,3:end))/dy^2; % nx-1 * ny
 Ax = Ax(:);
 ```
+
 
 
 The difference equation can be directly written in code.
@@ -493,7 +523,8 @@ Let's animate the flow with Re = 5,000. The numerical integration process discus
 
 
 ## Setting up Environment
-```matlab
+
+```matlab:Code
 Re = 5000; % Reynolds number
 nt = 3000; % max time steps
 Lx = 1; Ly = 1; % domain size
@@ -511,22 +542,26 @@ yco = (0:Ny)*dy;
 ```
 
 
+
 Initialize the flow field.
 
 
-```matlab
+
+```matlab:Code
 u = zeros(Nx+1,Ny+2); % velocity in x direction (u)
 v = zeros(Nx+2,Ny+1); % velocity in y direction (v)
 uce = (u(1:end-1,2:end-1)+u(2:end,2:end-1))/2; % u at cell center
 vce = (v(2:end-1,1:end-1)+v(2:end-1,2:end))/2; % v at cell center
 ```
+
 ## Setting up Visualization
 
 
 Downsample the velocity field at the interval of `visRate` so that the plot is not going to be filled with arrows. Also GIF is updated (appended) at every `recordRate` time steps.
 
 
-```matlab
+
+```matlab:Code
 visRate = 4; % downsample rate of the data for quiver
 recordGIF = false; % set to true if you wanna make GIF
 recordRate = 20;
@@ -534,27 +569,35 @@ filename = 'animation_sample.gif'; % Specify the output file name
 ```
 
 
+
 Contour plot
 
 
-```matlab
+
+```matlab:Code
 figure
 [Xce,Yce] = meshgrid(xce,yce); % cell center grid
 [~,h_abs] = contourf(Xce',Yce',sqrt(uce.^2+vce.^2)); % contour
 ```
+
+
+```text:Output
+è­¦å‘Š: ç­‰é«˜ç·šå›³ã¯ ZData ãŒå®šæ•°ã®å ´åˆã¯ãƒ¬ãƒ³ãƒ€ãƒªãƒ³ã‚°ã•ã‚Œã¾ã›ã‚“
 ```
-Œx: “™‚ü}‚Í ZData ‚ª’è”‚Ìê‡‚ÍƒŒƒ“ƒ_ƒŠƒ“ƒO‚³‚ê‚Ü‚¹‚ñ
-```
-```matlab
+
+
+```matlab:Code
 hold on
 ```
+
 
 
 Quiver plot
 
 
-```matlab
-% Downsample the dataid = downsampledj
+
+```matlab:Code
+% Downsample the dataï¼ˆd = downsampledï¼‰
 xced = xce(1:visRate:end);
 yced = yce(1:visRate:end);
 [Xced,Yced] = meshgrid(xced, yced);
@@ -568,29 +611,35 @@ xlim([0 Lx]); ylim([0 Ly]);
 ```
 
 
+
 Additional arrow representing the bounary condition at the top lid.
 
 
-```matlab
+
+```matlab:Code
 harrow = annotation('textarrow',[0.3 0.7],[0.96 0.96],"LineWidth",2);
 ```
+
 
 
 Delete the ticks/tick labels.
 
 
-```matlab
+
+```matlab:Code
 haxes = gca;
 haxes.XTick = [];
 haxes.YTick = [];
 ```
+
 ## Start the Simulation
 
 
 Just to make it a little fun, the velocity of the top lid reverses at the 1000 steps (out of 3000 steps).
 
 
-```matlab
+
+```matlab:Code
 initialFrame = true;
 
 for ii = 1:nt
@@ -618,20 +667,21 @@ for ii = 1:nt
         drawnow
         
         if recordGIF
-            frame = getframe(gcf); %#ok<UNRCH> % Figure ‰æ–Ê‚ğƒ€[ƒr[ƒtƒŒ[ƒ€i\‘¢‘Ìj‚Æ‚µ‚ÄƒLƒƒƒvƒ`ƒƒ
-            tmp = frame2im(frame); % ‰æ‘œ‚É•ÏX
-            [A,map] = rgb2ind(tmp,256); % RGB -> ƒCƒ“ƒfƒbƒNƒX‰æ‘œ‚É
+            frame = getframe(gcf); %#ok<UNRCH> % Figure ç”»é¢ã‚’ãƒ ãƒ¼ãƒ“ãƒ¼ãƒ•ãƒ¬ãƒ¼ãƒ ï¼ˆæ§‹é€ ä½“ï¼‰ã¨ã—ã¦ã‚­ãƒ£ãƒ—ãƒãƒ£
+            tmp = frame2im(frame); % ç”»åƒã«å¤‰æ›´
+            [A,map] = rgb2ind(tmp,256); % RGB -> ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ç”»åƒã«
             if initialFrame
                 imwrite(A,map,filename,'gif','LoopCount',Inf,'DelayTime',0.1);
                 initialFrame = false;
             else
-                imwrite(A,map,filename,'gif','WriteMode','append','DelayTime',0.1);% ‰æ‘œ‚ğƒAƒyƒ“ƒh
+                imwrite(A,map,filename,'gif','WriteMode','append','DelayTime',0.1);% ç”»åƒã‚’ã‚¢ãƒšãƒ³ãƒ‰
             end
         end
         
     end
 end
 ```
+
 
 ![figure_2.png](vanilaCavityFlowImplicit_EN_images/figure_2.png)
 
@@ -646,21 +696,25 @@ We haven't yet validated the result or anything, but it seems to work fine with 
 In this document, we have discussed the Crank-Nicolson and Adams-Bashfoth. It's observed that the simulation still diverges with high Renolds number if the time step size is not small enough. If you find the simualtion is not working please try Runge-Kutta instead by replacing
 
 
-```matlab
+
+```matlab:Code(Display)
     [u,v] = updateVelocityField_CNAB_bctop(u,v,Nx,Ny,dx,dy,Re,dt,bctop,'dct');
 ```
+
 
 
 by
 
 
-```matlab
+
+```matlab:Code(Display)
     [u,v] = updateVelocityField_RK3_bctop(u,v,Nx,Ny,dx,dy,Re,dt,bctop,'dct');
 ```
+
 # Appendix: Runge-Kutta
 
 
-The low-storage third-order semi-implicit RungeüüKutta method of Spalart et al. (1991)[3] is also implemented for the temporal discretization to achieve a higher order of temporal accuracy. See `updateVelocityField_RK3.m`. The equations to be solved at each step then become
+The low-storage third-order semi-implicit Rungeâ€“Kutta method of Spalart et al. (1991)[3] is also implemented for the temporal discretization to achieve a higher order of temporal accuracy. See `updateVelocityField_RK3.m`. The equations to be solved at each step then become
 
 
 
@@ -687,7 +741,7 @@ It required three times as much as a computation for a one-time step, but it all
 
 
 
-[2] Simens, M.P., JimLenez, J., Hoyas, S. and Mizuno, Y. 2009 A high-resolution code for turbulent boundary layers. Journal of Computational Physics 228 (11), 4218-4231.
+[2] Simens, M.P., JimÂ´enez, J., Hoyas, S. and Mizuno, Y. 2009 A high-resolution code for turbulent boundary layers. Journal of Computational Physics 228 (11), 4218-4231.
 
 
 

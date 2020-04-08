@@ -72,6 +72,10 @@ switch method
         % by using the discrete cosine transform（コサイン変換使用）
         % Note: Signal Processing Toolbox required
         dp = solvePoissonEquation_2dDCT(b,nx,ny,dx,dy);
+    case 'dct_p'
+        % by using the discrete cosine transform（コサイン変換使用）
+        % Note: Signal Processing Toolbox required
+        dp = solvePoissonEquation_2dDCT_p(b,nx,ny,dx,dy);
     case 'iterative'
         [dp,~] = minres(@(x) operatorDG(x,nx,ny,dx,dy),b(:),1e-4,300);
         dp = reshape(dp,nx,ny);
@@ -82,8 +86,18 @@ switch method
 end
 % correction to get the final velocity
 p = dp;
-u(2:end-1,2:end-1) = u(2:end-1,2:end-1) -  (p(2:end,:)-p(1:end-1,:))/dx;
-v(2:end-1,2:end-1) = v(2:end-1,2:end-1) -  (p(:,2:end)-p(:,1:end-1))/dy;
+% u(2:end-1,2:end-1) = u(2:end-1,2:end-1) -  (p(2:end,:)-p(1:end-1,:))/dx;
+% v(2:end-1,2:end-1) = v(2:end-1,2:end-1) -  (p(:,2:end)-p(:,1:end-1))/dy;
+
+switch method
+    case 'dct_p'
+        u(2:end-1,2:end-1) = u(2:end-1,2:end-1) -  (p(2:end,:)-p(1:end-1,:))/dx;
+        v(2:end-1,2:end-1) = v(2:end-1,2:end-1) -  (p(:,2:end)-p(:,1:end-1))/dy;
+                u(end,2:end-1) = u(end,2:end-1) + 2*p(end,:)/dx;    %right
+    otherwise
+        u(2:end-1,2:end-1) = u(2:end-1,2:end-1) -  (p(2:end,:)-p(1:end-1,:))/dx;
+        v(2:end-1,2:end-1) = v(2:end-1,2:end-1) -  (p(:,2:end)-p(:,1:end-1))/dy;
+end
 
 % check the divergence
 %     b = ((u(2:end,2:end-1)-u(1:end-1,2:end-1))/dx ...
