@@ -8,8 +8,8 @@ mwx = 2*(cos(pi*kx/nx)-1)/dx^2;
 mwy = 2*(cos(pi*ky/ny)-1)/dy^2;
 
 % 2D DCT of b (Right hand side)
-fhat = dct2(b); % Needs Image Processing Toolbox
-% fhat = dct(dct(b)')'; % Same as above (Needs Signal Processing Toolbox instead)
+% fhat = dct2(b); % Needs Image Processing Toolbox
+fhat = dct(dct(b)')'; % Same as above (Needs Signal Processing Toolbox instead)
 
 [MWX, MWY] = ndgrid(mwx,mwy);
 phat = fhat./(MWX+MWY);
