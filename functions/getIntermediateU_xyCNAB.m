@@ -12,7 +12,7 @@ if isempty(A4u) || any(size(L4u) ~= [(nx-1)*ny,(nx-1)*ny]) || dtRe_old ~= dt/Re
     maskU = false(nx+1,ny+2);
     maskU(2:end-1,2:end-1) = true;
     L4u = getL4u(nx,ny,dx,dy,maskU);
-    A4u = eye(size(L4u),'like',L4u)-dt/(2*Re)*L4u;
+    A4u = speye(size(L4u))-dt/(2*Re)*L4u;
     A4u = decomposition(A4u); 
 end
 

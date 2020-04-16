@@ -4,6 +4,8 @@
 % represents the velocity using |quiver| function. The code below generates GIF. 
 % The numerical integration process discussed above is now in the function |updateVelocityField.m.|
 % 
+clear, close all
+addpath('../functions/')
 %% Animation Setting
 visRate = 4; % downsample rate of the data for quiver
 recordGIF = false; % set to true if you wanna make GIF
@@ -80,8 +82,8 @@ for ii = 1:nt
     end
     
     % Update the velocity field (uses dct)
-    [u,v] = updateVelocityField_CNAB_bctop(u,v,Nx,Ny,dx,dy,Re,dt,bctop,'dct');
-%     [u,v] = updateVelocityField_RK3_bctop(u,v,Nx,Ny,dx,dy,Re,dt,bctop,'dct');
+%     [u,v] = updateVelocityField_CNAB_bctop(u,v,Nx,Ny,dx,dy,Re,dt,bctop,'dct');
+    [u,v] = updateVelocityField_RK3_bctop(u,v,Nx,Ny,dx,dy,Re,dt,bctop,'dct');
     
     % Update the plot at every recordRate steps
     if mod(ii,recordRate) == 0
