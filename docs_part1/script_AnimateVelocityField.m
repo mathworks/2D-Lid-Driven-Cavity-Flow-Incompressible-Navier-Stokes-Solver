@@ -9,6 +9,7 @@
 
 %% Setting up
 clear, close all
+addpath('../functions/')
 Re = 500; % Reynolds number
 nt = 2000; % max time steps
 Lx = 1; Ly = 1; % domain size
