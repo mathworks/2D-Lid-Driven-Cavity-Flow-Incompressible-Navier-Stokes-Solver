@@ -27,6 +27,14 @@ The implicit treatments for viscous terms are implemented, namely the Crank-Nico
 
 拡散項に対して陰解法を実装しました。対流項へアダムス・バッシュフォースを使用したもの、3段階のルンゲクッタ法の２つの時間発展を実装しています。
 
+## Part 3: Performance Comparison of the Implicit Methods
+
+- Click [here](./docs_part3/vanilaCavityFlowHelmholtzSolver_EN.md) for detailed documentation in English.
+- 日本語のドキュメントは[こちら](./docs_part3/vanilaCavityFlowHelmholtzSolver_JP.md) から
+
+The implicit treatments for viscous terms results in solving the discretized Helmholtz equation at every time step. We compare the performance of five methods.
+
+拡散項に対して陰解法を実装すると離散ヘルムホルツ方程式を毎時間ステップ解く必要が出てきます。直接法、反復法、離散サイン変換を使用した方法などの処理速度を検証します。
 
 ## Next to come
 
