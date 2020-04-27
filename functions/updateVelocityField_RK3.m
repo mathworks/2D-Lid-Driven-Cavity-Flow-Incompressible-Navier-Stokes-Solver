@@ -81,10 +81,12 @@ zeta = [0,-17/60,-5/12];
 
 % Implicit treatment for xy direction
 b = u(2:end-1,2:end-1) - dt*(gamma(id)*Nu + zeta(id)*Nu_old - alpha(id)/(Re)*(Lux+Luy+Lubc));
-xu = getIntermediateU_xyRK3(u, b, dt, Re, nx, ny, dx, dy, id);
+% xu = getIntermediateU_xyRK3(u, b, dt, Re, nx, ny, dx, dy, id);
+xu = getIntermediateU_xyRK3_dst(u, b, dt, Re, nx, ny, dx, dy, id);
 
 b = v(2:end-1,2:end-1) - dt*(gamma(id)*Nv + zeta(id)*Nv_old - alpha(id)/(Re)*(Lvx+Lvy+Lvbc));
-xv = getIntermediateV_xyRK3(v, b, dt, Re, nx, ny, dx, dy, id);
+% xv = getIntermediateV_xyRK3(v, b, dt, Re, nx, ny, dx, dy, id);
+xv = getIntermediateV_xyRK3_dst(v, b, dt, Re, nx, ny, dx, dy, id);
 
 u(2:end-1,2:end-1) = xu;
 v(2:end-1,2:end-1) = xv;
