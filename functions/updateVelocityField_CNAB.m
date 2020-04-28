@@ -105,22 +105,21 @@ switch method
         error("Specified method: " + method + " is not supported." + ...
             "It should be either direct or dct");
 end
-% correction to get the final velocity
-p = dp;
 
 switch method
     case 'dct_p'
-        u(2:end-1,2:end-1) = u(2:end-1,2:end-1) -  (p(2:end,:)-p(1:end-1,:))/dx;
-        v(2:end-1,2:end-1) = v(2:end-1,2:end-1) -  (p(:,2:end)-p(:,1:end-1))/dy;
-        u(end,2:end-1) = u(end,2:end-1) + 2*p(end,:)/dx;    %right
-        v(2:end-1,end) = v(2:end-1,end) + 2*p(:,end)/dy;    %right
-        v(2:end-1,1) = v(2:end-1,1) - 2*p(:,1)/dy;    %right
+        u(2:end-1,2:end-1) = u(2:end-1,2:end-1) -  (dp(2:end,:)-dp(1:end-1,:))/dx;
+        v(2:end-1,2:end-1) = v(2:end-1,2:end-1) -  (dp(:,2:end)-dp(:,1:end-1))/dy;
+        u(end,2:end-1) = u(end,2:end-1) + 2*dp(end,:)/dx;    %right
+        v(2:end-1,end) = v(2:end-1,end) + 2*dp(:,end)/dy;    %top
+        v(2:end-1,1) = v(2:end-1,1) - 2*dp(:,1)/dy;    %bottom
     otherwise
-        u(2:end-1,2:end-1) = u(2:end-1,2:end-1) -  (p(2:end,:)-p(1:end-1,:))/dx;
-        v(2:end-1,2:end-1) = v(2:end-1,2:end-1) -  (p(:,2:end)-p(:,1:end-1))/dy;
+        u(2:end-1,2:end-1) = u(2:end-1,2:end-1) -  (dp(2:end,:)-dp(1:end-1,:))/dx;
+        v(2:end-1,2:end-1) = v(2:end-1,2:end-1) -  (dp(:,2:end)-dp(:,1:end-1))/dy;
 end
 
-
+% correction to get the final velocity
+p = dp;
 
 % check the divergence
 %     b = ((u(2:end,2:end-1)-u(1:end-1,2:end-1))/dx ...
