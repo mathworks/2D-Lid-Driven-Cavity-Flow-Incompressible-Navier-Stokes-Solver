@@ -116,28 +116,29 @@ switch method
         % by using the discrete cosine transform（コサイン変換使用）
         % Note: Signal Processing Toolbox required
         dp = solvePoissonEquation_2dDCT(b,nx,ny,dx,dy);
-            case 'dct_p'
+    case 'dct_p'
         % by using the discrete cosine transform（コサイン変換使用）
         % Note: Signal Processing Toolbox required
         dp = solvePoissonEquation_2dDCT_p(b,nx,ny,dx,dy);
-    
+        
     otherwise
         error("Specified method: " + method + " is not supported." + ...
             "It should be either direct or dct");
 end
-% correction to get the final velocity
-p = dp;
-% u(2:end-1,2:end-1) = u(2:end-1,2:end-1) -  (p(2:end,:)-p(1:end-1,:))/dx;
-% v(2:end-1,2:end-1) = v(2:end-1,2:end-1) -  (p(:,2:end)-p(:,1:end-1))/dy;
 
+% correction to get the final velocity
 switch method
     case 'dct_p'
-        u(2:end-1,2:end-1) = u(2:end-1,2:end-1) -  (p(2:end,:)-p(1:end-1,:))/dx;
-        v(2:end-1,2:end-1) = v(2:end-1,2:end-1) -  (p(:,2:end)-p(:,1:end-1))/dy;
-        u(end,2:end-1) = u(end,2:end-1) + 2*p(end,:)/dx;    %right
+        u(2:end-1,2:end-1) = u(2:end-1,2:end-1) -  (dp(2:end,:)-dp(1:end-1,:))/dx;
+        v(2:end-1,2:end-1) = v(2:end-1,2:end-1) -  (dp(:,2:end)-dp(:,1:end-1))/dy;
+        u(end,2:end-1) = u(end,2:end-1) + 2*dp(end,:)/dx;    %right
+        v(2:end-1,end) = v(2:end-1,end) + 2*dp(:,end)/dy;    %top
+        v(2:end-1,1) = v(2:end-1,1) - 2*dp(:,1)/dy;    %bottom
     otherwise
-        u(2:end-1,2:end-1) = u(2:end-1,2:end-1) -  (p(2:end,:)-p(1:end-1,:))/dx;
-        v(2:end-1,2:end-1) = v(2:end-1,2:end-1) -  (p(:,2:end)-p(:,1:end-1))/dy;
+        u(2:end-1,2:end-1) = u(2:end-1,2:end-1) -  (dp(2:end,:)-dp(1:end-1,:))/dx;
+        v(2:end-1,2:end-1) = v(2:end-1,2:end-1) -  (dp(:,2:end)-dp(:,1:end-1))/dy;
 end
+
+p = dp;
 
 end
