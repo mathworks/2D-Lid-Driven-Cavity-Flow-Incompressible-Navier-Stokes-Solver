@@ -155,7 +155,7 @@ else % ない場合
 end
 ```
 
-## `質量保存の式確認`
+## 質量保存の式確認
 
 
 念のため質量保存の式も確認しておきます。大丈夫ですね。
@@ -172,6 +172,7 @@ end
 divergence(x, y, t) = 
 
    <img src="https://latex.codecogs.com/gif.latex?&space;0"/>
+  
 # コードの変更箇所
 
 
