@@ -36,6 +36,18 @@ The implicit treatments for viscous terms results in solving the discretized Hel
 
 拡散項に対して陰解法を実装すると離散ヘルムホルツ方程式を毎時間ステップ解く必要が出てきます。直接法、反復法、離散サイン変換を使用した方法などの処理速度を検証します。
 
+
+## Part 4: Validation of the Numerical Scheme
+
+- Click [here](./docs_part4/NSSolverValidation_EN.md) for detailed documentation in English. (not ready)
+- 日本語のドキュメントは[こちら](./docs_part4/NSSolverValidation_JP_JP.md) から
+
+The results of spatial and temporal convergence tests are shown. Convergence tests are run using the method of manufactured solutions where the Navier-Stokes equations are forced so that
+the solution will be a prescribed time-dependent function.
+
+ある外力項を加えた Navier-Stokes 方程式の数値解と解析解と比較することで、時間積分の精度（1次精度） と空間微分の精度（2次精度）を確認します。
+
+
 ## Next to come
 
 The plan is to allow arbitrary boundary conditions for more fun simulations.
