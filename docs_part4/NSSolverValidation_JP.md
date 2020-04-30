@@ -1,4 +1,9 @@
 # 非圧縮性 Navier-Stokes 方程式の数値解法４：ソルバー精度検証
+
+
+Copyright (c) 2020, The MathWorks, Inc.
+
+
 # はじめに
 
 
@@ -34,7 +39,7 @@ Navier-Stokes 方程式を数値的に解くシリーズ、第４回目です。
 
 
 
-![image_0.png](NSSolverValidation_images/image_0.png)
+![image_0.png](NSSolverValidation_JP_images/image_0.png)
 
 
 ## 実行環境
@@ -84,7 +89,7 @@ Navier-Stokes 方程式が ”ある解” を満たすような外力項を追�
   
 
 
-![image_1.png](NSSolverValidation_images/image_1.png)
+![image_1.png](NSSolverValidation_JP_images/image_1.png)
 
 
 
@@ -155,7 +160,7 @@ else % ない場合
 end
 ```
 
-## `質量保存の式確認`
+## 質量保存の式確認
 
 
 念のため質量保存の式も確認しておきます。大丈夫ですね。
@@ -172,6 +177,7 @@ end
 divergence(x, y, t) = 
 
    <img src="https://latex.codecogs.com/gif.latex?&space;0"/>
+  
 # コードの変更箇所
 
 
@@ -183,7 +189,11 @@ divergence(x, y, t) =
 詳細は `updateVelocityField_CNAB.m` や `updateVelocityField_RK3.m` に譲りますが、大きな変更箇所は以下の2点。
 
 
-  
+
+
+1つ目は拡散項の陰解法を解くにあたっての境界条件
+
+
 
 ```matlab:Code(Display)
 Lubc(1,:) = velbc1.uLeft(2:end-1)/dx^2;
@@ -194,7 +204,7 @@ Lubc(:,end) = 2*velbc1.uTop(2:end-1)/dy^2;
 
 
 
-1つ目は拡散項の陰解法を解くにあたっての境界条件、そしてここは 1 ステップ先の速度場を使用する必要があります。
+ここは 1 ステップ先の速度場を使用する必要があります。
 
 
 
@@ -205,7 +215,11 @@ Lubc(:,end) = 2*velbc1.uTop(2:end-1)/dy^2;
 の <img src="https://latex.codecogs.com/gif.latex?\inline&space;bc_L^{n+1}"/> と <img src="https://latex.codecogs.com/gif.latex?\inline&space;bc_D^{n+1}"/>の項です。
 
 
-  
+
+
+2つ目は外力項です。
+
+
 
 ```matlab:Code(Display)
 % 3-1. get derivative for u
@@ -223,7 +237,27 @@ Nv = Nv - vForce;
 
 
 
-2つ目は外力項です。こちらは非線形項に加えておきます。
+こちらは非線形項に加えておきます。
+
+
+  
+### 境界条件設定上の注意点
+
+
+任意の速度を設定できるとはいえ、計算領域への流入と流出はバランスしている必要があります。`checkNSSolverError.m` 内では
+
+
+
+```matlab:Code(Display)
+% divergence check
+inflow = sum(velbc.vBottom(2:end-1))*dx + sum(velbc.uLeft(2:end-1))*dy;
+outflow = sum(velbc.vTop(2:end-1))*dx + sum(velbc.uRight(2:end-1))*dy;
+assert(abs(inflow - outflow) < eps, "Inflow flux must match the outflow flux.")
+```
+
+
+
+でチェックしています
 
 
 # 精度検証の条件設定
@@ -266,7 +300,7 @@ checkNSSolverError(Re,a,N,dt,tEnd,fuFunc,fvFunc,usolFunc,vsolFunc,psolFunc,'RK3'
 
 
 
-![image_2.png](NSSolverValidation_images/image_2.png)
+![image_2.png](NSSolverValidation_JP_images/image_2.png)
 
 
 
@@ -352,7 +386,7 @@ annotation('textbox',[0.3 0.3 0.2 0.1],...
 ```
 
 
-![figure_0.png](NSSolverValidation_images/figure_0.png)
+![figure_0.png](NSSolverValidation_JP_images/figure_0.png)
 
 
 
@@ -434,7 +468,7 @@ ylim([1e-5,1e-3])
 ```
 
 
-![figure_1.png](NSSolverValidation_images/figure_1.png)
+![figure_1.png](NSSolverValidation_JP_images/figure_1.png)
 
 
 
