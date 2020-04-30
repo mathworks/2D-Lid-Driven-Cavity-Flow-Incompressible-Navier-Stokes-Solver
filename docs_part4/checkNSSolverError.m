@@ -1,8 +1,26 @@
-function [L2error, h_fig] = checkNSSolverError(Re,a,N,dt,tEnd,fuFunc,fvFunc,usolFunc,vsolFunc,psolFunc,timeScheme, visFlag, recordGIF)
+% Copyright (c) 2020, The MathWorks, Inc.
+function [L2error, h_fig] = checkNSSolverError(Re,a,N,dt,tEnd,...
+    fuFunc,fvFunc,usolFunc,vsolFunc,psolFunc,...
+    timeScheme,visFlag,recordGIF)
+
+% This is a function to run the solulation and return the difference
+% (error) from the analytical solutions.
+% INPUTS
+% Re: Reynolds Number (1x1 double)
+% a: Flow Parameter (1x1 double)
+% N: The number of grids (1x1 doboue)
+% dt: Time step size (1x1 double)
+% tEnd: Time to stop the simulation (1x1 double)
+% fuFunc: Forcing term in x-direction (a function handle)
+% fvFunc: Forcing term in y-direction (a function handle)
+% usolFunc: Analytical solution of u (a function handle)
+% vsolFunc: Analytical solution of v (a function handle)
+% psolFunc: Analytical solution of p (a function handle)
+% timeScheme: Time integration scheme (char)
+% visFlag: Flag for visualizing the flow (true/false)
+% recordGIF: Flag for recording GIF (true/false)
 
 % Animation Setting
-% recordGIF = false; % set to true if you need GIF
-% visFlag = false; % set to true to visualize the flow
 visRate = 4; % downsample rate of the data for quiver
 recordRate = 20;
 filename = 'errorCheck.gif'; % Specify the output file name
