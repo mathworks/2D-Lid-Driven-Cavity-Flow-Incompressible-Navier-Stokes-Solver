@@ -39,7 +39,7 @@ The implicit treatments for viscous terms results in solving the discretized Hel
 
 ## Part 4: Validation of the Numerical Scheme
 
-- Click [here](./docs_part4/NSSolverValidation_EN.md) for detailed documentation in English. (not ready)
+- Click [here] for detailed documentation in English. (not ready)
 - 日本語のドキュメントは[こちら](./docs_part4/NSSolverValidation_JP.md) から
 
 The results of spatial and temporal convergence tests are shown. Convergence tests are run using the method of manufactured solutions where the Navier-Stokes equations are forced so that
