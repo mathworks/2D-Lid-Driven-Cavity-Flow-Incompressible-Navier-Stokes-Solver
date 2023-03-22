@@ -1,5 +1,5 @@
 # 2D Lid Driven Cavity Flow
-[![View 2D-Lid-Driven-Cavity-Flow---Incompressible-Navier-Stokes-Sol on File Exchange](https://www.mathworks.com/matlabcentral/images/matlab-file-exchange.svg)](https://www.mathworks.com/matlabcentral/fileexchange/74483-2d-lid-driven-cavity-flow-incompressible-navier-stokes-sol)
+[![View 2D-Lid-Driven-Cavity-Flow---Incompressible-Navier-Stokes-Sol on File Exchange](https://www.mathworks.com/matlabcentral/images/matlab-file-exchange.svg)](https://www.mathworks.com/matlabcentral/fileexchange/74483-cfd101-2d-lid-driven-cavity-flow)
 [![Open in MATLAB Online](https://www.mathworks.com/images/responsive/global/open-in-matlab-online.svg)](https://matlab.mathworks.com/open/github/v1?repo=mathworks/2D-Lid-Driven-Cavity-Flow-Incompressible-Navier-Stokes-Solver)
 
 This repo provides a MATLAB example code for the lid-driven cavity flow where incompressible 
