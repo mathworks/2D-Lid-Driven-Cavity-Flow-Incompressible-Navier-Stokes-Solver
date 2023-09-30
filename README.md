@@ -54,11 +54,9 @@ the solution will be a prescribed time-dependent function.
 The plan is to allow arbitrary boundary conditions for more fun simulations.
 
 
-
-
 # Environment
 
-- MATLAB R2019b
+- MATLAB R2019b-R2023b
 - Signal Processing Toolbox if you use dct in solving Poisson eqn.
 
 # ToDo
@@ -71,4 +69,4 @@ The plan is to allow arbitrary boundary conditions for more fun simulations.
 
 --
 
-Copyright (c) 2020, The MathWorks, Inc.
+Copyright (c) 2020-2023, The MathWorks, Inc.
