@@ -1,3 +1,4 @@
+% Copyright (c) 2023 The MathWorks, Inc.
 clear
 close all
 addpath('../functions/');
