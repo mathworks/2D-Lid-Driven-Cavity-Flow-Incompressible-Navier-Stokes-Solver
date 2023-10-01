@@ -4,7 +4,7 @@ close all
 addpath('../functions/');
 
 visRate = 4; % downsample rate of the data for smooth visualization
-recordGIF = false;
+recordGIF = true;
 recordRate = 5;
 filename = 'ultraQ.gif'; % Specify the output file name
 
@@ -110,3 +110,5 @@ for ii = 1:1000
         end
     end
 end
+% longer frame for the last image
+imwrite(A,map,filename,'gif','WriteMode','append','DelayTime',1);% 画像をアペンド
