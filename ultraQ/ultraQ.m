@@ -4,7 +4,7 @@ close all
 addpath('../functions/');
 
 visRate = 4; % downsample rate of the data for smooth visualization
-recordGIF = true;
+recordGIF = false;
 recordRate = 5;
 filename = 'ultraQ.gif'; % Specify the output file name
 
@@ -30,12 +30,15 @@ yco = (0:Ny)*dy;
 load ultraQmarkers.mat
 
 %% Initial condition
-u = ones(Nx+1,Ny+2); % velocity in x direction (u)
+u = zeros(Nx+1,Ny+2); % velocity in x direction (u)
 v = zeros(Nx+2,Ny+1); % velocity in y direction (v)
 p = zeros(Nx,Ny); % pressure (lagurange multiplier)
 
 uce = (u(1:end-1,2:end-1)+u(2:end,2:end-1))/2; % u at cell center
 vce = (v(2:end-1,1:end-1)+v(2:end-1,2:end))/2; % v at cell center
+
+% Vorticity = dv/dx - du/dy;
+% vorticity = (v(2:end,:)-v(1:end-1,:))/dx - (u(:,2:end)-u(:,1:end-1))/dy;
 
 % Figure setup
 f = figure(1);
@@ -73,10 +76,10 @@ vForce = zeros(Nx,Ny-1);
 
 Nx2 = round(Nx/2);
 Ny2 = round(Ny/2);
-vForce(Nx2-4:Nx2+4,Ny2-5:Ny2-3) = -100;  
+vForce(Nx2-4:Nx2+4,Ny2-5:Ny2-3) = -100;
 
 for ii = 1:1000
-     % Update velocity field with 3 step Runge-Kutta
+    % Update velocity field with 3 step Runge-Kutta
     [u,v,p] = updateVelocityField_RK3( u,v,Nx,Ny,dx,dy,Re,dt,velbc,'dct',uForce,vForce,velbc1);
 
     % Velocity at the cell center
@@ -89,19 +92,19 @@ for ii = 1:1000
 
     % update marker pos (Euler method): rough!
     markers.pos = markers.pos + [markerU, markerV]*dt;
-    
+
     % for recroding animation
     if mod(ii-1,recordRate) == 0
-        
+
         hmarker.XData = markers.pos(:,1);
         hmarker.YData = markers.pos(:,2);
         drawnow
-        
+
         if recordGIF
             frame = getframe(gcf); %#ok<UNRCH> % Figure 画面をムービーフレーム（構造体）としてキャプチャ
             tmp = frame2im(frame); % 画像に変更
             [A,map] = rgb2ind(tmp,256); % RGB -> インデックス画像に
-            
+
             if ii==1
                 imwrite(A,map,filename,'gif','LoopCount',Inf,'DelayTime',0.05);
             else
@@ -110,5 +113,8 @@ for ii = 1:1000
         end
     end
 end
-% longer frame for the last image
-imwrite(A,map,filename,'gif','WriteMode','append','DelayTime',1);% 画像をアペンド
+
+if recordGIF
+    % longer frame for the last image
+    imwrite(A,map,filename,'gif','WriteMode','append','DelayTime',1);% 画像をアペンド
+end
