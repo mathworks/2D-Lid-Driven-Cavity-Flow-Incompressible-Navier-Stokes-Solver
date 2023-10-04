@@ -37,9 +37,6 @@ p = zeros(Nx,Ny); % pressure (lagurange multiplier)
 uce = (u(1:end-1,2:end-1)+u(2:end,2:end-1))/2; % u at cell center
 vce = (v(2:end-1,1:end-1)+v(2:end-1,2:end))/2; % v at cell center
 
-% Vorticity = dv/dx - du/dy;
-% vorticity = (v(2:end,:)-v(1:end-1,:))/dx - (u(:,2:end)-u(:,1:end-1))/dy;
-
 % Figure setup
 f = figure(1);
 [Xce,Yce] = ndgrid(xce,yce); % cell centerの座標グリッド
