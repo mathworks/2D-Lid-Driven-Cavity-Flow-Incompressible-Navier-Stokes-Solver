@@ -16,7 +16,7 @@ function [u,v] = updateVelocityField_RK3substep(u,v,nx,ny,dx,dy,Re,dt,bctop,meth
 
 persistent Nu_old Nv_old
 
-if isempty(Nu_old) || isempty(Nv_old) || any(size(Nu_old) ~= [(nx-1)*ny,(nx-1)*ny])
+if isempty(Nu_old) || isempty(Nv_old) || any(size(Nu_old) ~= [nx-1,ny])
     Nu_old = zeros(nx-1,ny);
     Nv_old = zeros(nx,ny-1);
 end
